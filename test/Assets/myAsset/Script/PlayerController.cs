@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour {
 		transform.LookAt (transform.position + agent.velocity);
 
 
+
+
 	}
 
 	void MoveTo(Transform target){
