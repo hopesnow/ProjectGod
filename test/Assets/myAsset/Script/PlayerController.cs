@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour {
 
 	public NavMeshAgent agent;
 	public Transform target;
+	Animator anim;
 
 	// Use this for initialization
 	void Start () {
@@ -13,6 +14,8 @@ public class PlayerController : MonoBehaviour {
 
 		agent.updateRotation = false;
 		agent.updatePosition = true;
+
+		anim = GetComponentInChildren<Animator> ();
 	}
 	
 	// Update is called once per frame
@@ -24,6 +27,12 @@ public class PlayerController : MonoBehaviour {
 
 
 		}
+
+		//animation
+		Vector2 speed = new Vector2 (agent.velocity.x, agent.velocity.z);
+		anim.SetFloat ("speed", speed.magnitude);
+
+		transform.LookAt (transform.position + agent.velocity);
 
 
 	}

@@ -17,7 +17,7 @@ public class CameraControl : MonoBehaviour {
 
 		transform.position = new Vector3 (player.position.x, player.position.y + dist * (Mathf.Sqrt(3) / 2), player.position.z - dist / 2);
 
-		if (Input.GetMouseButtonDown (0)) {
+		if (Input.GetMouseButton (0)) {
 
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit = new RaycastHit();
