@@ -3,20 +3,38 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
+	public NavMeshAgent agent;
+	public Transform target;
+
 	// Use this for initialization
 	void Start () {
 	
+		agent = GetComponentInChildren<NavMeshAgent> ();
+
+		agent.updateRotation = false;
+		agent.updatePosition = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
+		if (target != null) {
+
+			agent.SetDestination(target.position);
+
+
+		}
+
+
 	}
 
-	void MoveTo(Vector3 pos){
-
-		transform.position = new Vector3 (pos.x, 0, pos.z);
-
+	void MoveTo(Transform target){
+	
+		if (this.target != null) {
+			Destroy(this.target.gameObject);
+		}
+		this.target = target;
+	
 	}
 
 }

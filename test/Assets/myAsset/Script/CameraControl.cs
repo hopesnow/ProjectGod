@@ -4,11 +4,12 @@ using System.Collections;
 public class CameraControl : MonoBehaviour {
 
 	public Transform player;
+	public Transform AI;
 	public float dist;
 
 	// Use this for initialization
 	void Start () {
-		dist = 6;
+		dist = 8;
 	}
 	
 	// Update is called once per frame
@@ -25,7 +26,9 @@ public class CameraControl : MonoBehaviour {
 
 				if(hit.collider.gameObject.CompareTag("field")){
 
-					player.gameObject.SendMessage("MoveTo", hit.point);
+					GameObject target = new GameObject("target");
+					target.transform.position = hit.point;
+					player.gameObject.SendMessage("MoveTo", target.transform);
 
 				}
 
