@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour {
 	
 		agent = GetComponentInChildren<NavMeshAgent> ();
 
-		agent.updateRotation = false;
+		agent.updateRotation = true;
 		agent.updatePosition = true;
 
 		anim = GetComponentInChildren<Animator> ();
@@ -25,52 +25,44 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		Vector2 spd = new Vector2();
 	
 		if (target != null) {
 
-			if(agent.SetDestination(target.position)){
-				agent.Stop ();
+//			if (agent.SetDestination (new Vector3(target.position.x, transform.position.y, target.position.z))) {
+//				agent.Stop (true);
+//
+//				if ((new Vector2 (target.position.x, target.position.z) - new Vector2 (transform.position.x, transform.position.z)).magnitude < moveSpeed * Time.deltaTime) {
+//
+//					//目的地到達
+//					transform.position = new Vector3 (target.position.x, transform.position.y, target.position.z);
+//					Destroy (target.gameObject);
+//					target = null;
+//				
+//				} else if ((new Vector2 (agent.steeringTarget.x, agent.steeringTarget.z) - new Vector2 (transform.position.x, transform.position.z)).magnitude <= moveSpeed * Time.deltaTime) {
+//					transform.position = new Vector3 (agent.steeringTarget.x, transform.position.y, agent.steeringTarget.z);
+//
+//				} else {
+//					Vector3 temp = (agent.steeringTarget - transform.position).normalized * moveSpeed * Time.deltaTime;
+//					spd = new Vector2 (temp.x, temp.z);
+//					//agent.Move (temp);
+//
+//				}
+//
+//			}
 
-				if((new Vector2(agent.steeringTarget.x, agent.steeringTarget.z) - new Vector2(transform.position.x, transform.position.z)).magnitude <= moveSpeed * Time.deltaTime){
+			agent.SetDestination(new Vector3(target.position.x, transform.position.y, target.position.z));
 
-					if((new Vector2(target.position.x, target.position.z) - new Vector2(transform.position.x, transform.position.z)).magnitude < moveSpeed * Time.deltaTime){
-						//目的地到達
-						transform.position = new Vector3(target.position.x, transform.position.y, target.position.z);
-						Destroy(target.gameObject);
-						target = null;
-
-					}else{
-
-						transform.position = new Vector3(agent.steeringTarget.x, transform.position.y, agent.steeringTarget.z);
-
-					}
-
-				}else{
-					agent.Move((agent.steeringTarget - transform.position).normalized * moveSpeed * Time.deltaTime);
-				}
-
-			}
-
-			//agent.SetDestination(target.position);
-			//if((new Vector2(target.position.x, target.position.z) - new Vector2(transform.position.x, transform.position.z)).magnitude < speed * Time.deltaTime){
-			//	transform.position = new Vector3(target.position.x, transform.position.y, target.position.z);
-			//	Destroy(target.gameObject);
-			//	target = null;
-			//}else{
-			//	agent.Move((agent.steeringTarget - transform.position).normalized * speed * Time.deltaTime);
-			//}
+			
+			//transform.LookAt (agent.steeringTarget);
+			//transform.LookAt (Vector3.Lerp (transform.forward + transform.position, agent.steeringTarget, Time.deltaTime * turnSpeed));
 
 		}
 
 		//animation
-		Vector2 spd = new Vector2 (agent.velocity.x, agent.velocity.z);
-		anim.SetFloat ("speed", spd.magnitude);
-
-		//transform.LookAt (agent.steeringTarget);
-		transform.LookAt (Vector3.Lerp (transform.forward + transform.position, agent.steeringTarget, Time.deltaTime * turnSpeed));
-
-
-
+		//Vector2 spd = new Vector2 (agent.velocity.x, agent.velocity.z);
+		//anim.SetFloat ("speed", agent.velocity.magnitude);
 
 	}
 

@@ -1,12 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\myAsset\Script\PlayerController.cs">
     <Files>
-      <File FileName="Assets\myAsset\Script\CameraControl.cs" Line="22" Column="64" />
-      <File FileName="Assets\myAsset\Script\PlayerController.cs" Line="37" Column="3" />
+      <File FileName="Assets\myAsset\Script\PlayerController.cs" Line="65" Column="5" />
+      <File FileName="Assets\myAsset\Script\CameraControl.cs" Line="35" Column="51" />
       <File FileName="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonCharacter.cs" Line="54" Column="24" />
       <File FileName="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonUserControl.cs" Line="20" Column="32" />
-      <File FileName="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\AICharacterControl.cs" Line="36" Column="30" />
+      <File FileName="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\AICharacterControl.cs" Line="1" Column="1" />
       <File FileName="Assets\myAsset\Script\TouchControl.cs" Line="13" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>

@@ -7,17 +7,23 @@ public class CameraControl : MonoBehaviour {
 	public Transform AI;
 	public float dist;
 
+	public float camSpeed;
+
+	public GameObject tapPoint;
+
 	// Use this for initialization
 	void Start () {
 		dist = 8;
+		camSpeed = 10.0f;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		transform.position = new Vector3 (player.position.x, player.position.y + dist * (Mathf.Sqrt(3) / 2), player.position.z - dist / 2);
+		transform.position = Vector3.Lerp (transform.position, new Vector3 (player.position.x, player.position.y + dist * (Mathf.Sqrt (3) / 2), player.position.z - dist / 2), Time.deltaTime * camSpeed);
 
-		if (Input.GetMouseButton (0)) {
+		if (Input.GetMouseButtonDown (0)) {
 
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit = new RaycastHit();
@@ -28,6 +34,7 @@ public class CameraControl : MonoBehaviour {
 
 					GameObject target = new GameObject("target");
 					target.transform.position = hit.point;
+					tapPoint.transform.position = hit.point;
 					player.gameObject.SendMessage("MoveTo", target.transform);
 
 				}
