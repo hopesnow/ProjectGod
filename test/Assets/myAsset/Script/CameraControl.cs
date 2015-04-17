@@ -71,12 +71,16 @@ public class CameraControl : MonoBehaviour {
 
 		}
 
+#if UNITY_ANDROID
+		transform.position = Vector3.Lerp (transform.position, GetPlayerCamera(), Time.deltaTime * camSpeed);
+#endif
 		//Camera Move to Player
 		if (Input.GetKey(KeyCode.Space)) {
 			transform.position = Vector3.Lerp (transform.position, GetPlayerCamera(), Time.deltaTime * camSpeed);
 		} else {
 			
 		}
+
 
 	}
 
