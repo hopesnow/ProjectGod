@@ -3,11 +3,13 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-	public NavMeshAgent agent;
-	public Transform target;
+	NavMeshAgent agent;
+	Transform target;
 	Animator anim;
 	public float moveSpeed;
 	public float turnSpeed;
+
+	public RectTransform healthImage;
 
 	// Use this for initialization
 	void Start () {
@@ -63,6 +65,13 @@ public class PlayerController : MonoBehaviour {
 		//animation
 		//Vector2 spd = new Vector2 (agent.velocity.x, agent.velocity.z);
 		//anim.SetFloat ("speed", agent.velocity.magnitude);
+
+
+
+
+		healthImage.position = Camera.main.WorldToScreenPoint(transform.position);
+
+
 
 	}
 

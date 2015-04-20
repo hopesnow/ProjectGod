@@ -12,6 +12,7 @@ public class CameraControl : MonoBehaviour {
 	public GameObject tapPoint;
 
 	Vector3 movePos;
+	Vector2 tapPosition;
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +22,7 @@ public class CameraControl : MonoBehaviour {
 		transform.position = GetPlayerCamera();
 
 		movePos = new Vector3 ();
+		tapPosition = new Vector2 ();
 
 	}
 	
@@ -29,25 +31,49 @@ public class CameraControl : MonoBehaviour {
 
 
 		//palyer move
+#if UNITY_EDITOR
 		if (Input.GetMouseButtonDown (1)) {
-
+		
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit = new RaycastHit();
-
+		
 			if(Physics.Raycast(ray, out hit)){
-
+		
 				if(hit.collider.gameObject.CompareTag("field")){
-
+		
 					GameObject target = new GameObject("target");
 					target.transform.position = hit.point;
 					tapPoint.transform.position = hit.point;
 					player.gameObject.SendMessage("MoveTo", target.transform);
-
+		
 				}
-
+		
 			}
-
+		
 		}
+
+#elif UNITY_ANDROID
+//		for(int i = 0;i < Input.touchCount;i++){
+//
+//			if (Input.touches[i].phase == TouchPhase.Began) {
+//				Ray ray = Camera.main.ScreenPointToRay(Input.touches[i].position);
+//				RaycastHit hit = new RaycastHit();
+//				
+//				if(Physics.Raycast(ray, out hit)){
+//					if(hit.collider.gameObject.CompareTag("field")){
+//						GameObject target = new GameObject("target");
+//						target.transform.position = hit.point;
+//						tapPoint.transform.position = hit.point;
+//						player.gameObject.SendMessage("MoveTo", target.transform);
+//					}
+//				}
+//				
+//			}
+//		}
+#endif
+
+
+
 
 		//Camera Moving
 		if (Input.GetMouseButton (0)) {
