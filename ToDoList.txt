@@ -1,1 +1,13 @@
 PlayerController.csのrotationを自分で変更するようにするか
+
+Motionなにが最低限いるか
+	idle
+	run
+	walk
+	attack
+	skill1
+	skill2
+	skill3
+	dead
+	fun(お楽しみモーション？)
+
