@@ -7,9 +7,10 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	public GameObject[] roomUI;
 	public GameObject[] roomName;
 	public GameObject[] roomMember;
-	public GameObject name;
+	public GameObject theRoomName;
 	public GameObject createButton;
 	public GameObject myRoom;
+	public GameObject playerName;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +21,8 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	void OnJoinedLobby() {
 		Debug.Log("Joined Lobby");
 //		PhotonNetwork.JoinRandomRoom();
+		SetPlayerName ();
+		playerName.GetComponent<InputField> ().interactable = true;
 
 	}
 
@@ -28,6 +31,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 		for (int i = 0; i < roomUI.Length; i++) {
 			roomUI[i].SetActive(true);
 		}
+		playerName.GetComponent<InputField> ().interactable = false;
 
 	}
 
@@ -38,11 +42,16 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 		}
 		myRoom.SetActive (true);
 		myRoom.SendMessage ("SetRoomInfo", PhotonNetwork.room);
+		myRoom.SendMessage ("SetPlayerName");
+		Debug.Log(PhotonNetwork.playerName);
 
 	}
 
 	void OnLeftRoom(){
 		Debug.Log ("Leave Room");
+		for (int i = 0; i < roomUI.Length; i++) {
+			roomUI[i].SetActive(true);
+		}
 		myRoom.SetActive (false);
 
 	}
@@ -51,7 +60,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 		Debug.Log ("failed create room");
 
 	}
-
 
 	//not called if u are in a room(lobby only)
 	void OnReceivedRoomListUpdate(){
@@ -69,6 +77,11 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
 	}
 
+	void OnPhotonPlayerPropertiesChanged(){
+		Debug.Log ("よばれたよ");
+
+	}
+
 	void OnPhotonCustomRoomPropertiesChanged(){
 		Debug.Log ("room changed");
 
@@ -76,8 +89,8 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	}
 
 	void CreateRoom(){
-		Debug.Log ("CreateRoom : " + name.GetComponent<InputField>().text);
-		PhotonNetwork.CreateRoom (name.GetComponent<InputField>().text, true, true, 6);
+		Debug.Log ("CreateRoom : " + theRoomName.GetComponent<InputField>().text);
+		PhotonNetwork.CreateRoom (theRoomName.GetComponent<InputField>().text, true, true, 6);
 
 
 	}
@@ -89,6 +102,11 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
 	public void ExitRoom(){
 		PhotonNetwork.LeaveRoom ();
+
+	}
+
+	public void SetPlayerName(){
+		PhotonNetwork.playerName = playerName.GetComponent<InputField>().text;
 
 	}
 	
