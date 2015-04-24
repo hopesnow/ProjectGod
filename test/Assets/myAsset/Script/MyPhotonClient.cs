@@ -37,21 +37,24 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
 	void OnJoinedRoom(){
 		Debug.Log ("Join Room Sccess : " + PhotonNetwork.room.name);
+
 		for (int i = 0; i < roomUI.Length; i++) {
 			roomUI[i].SetActive(false);
 		}
 		myRoom.SetActive (true);
 		myRoom.SendMessage ("SetRoomInfo", PhotonNetwork.room);
-		myRoom.SendMessage ("SetPlayerName");
+		myRoom.SendMessage ("OpenRoom");
 		Debug.Log(PhotonNetwork.playerName);
 
 	}
 
 	void OnLeftRoom(){
 		Debug.Log ("Leave Room");
+
 		for (int i = 0; i < roomUI.Length; i++) {
 			roomUI[i].SetActive(true);
 		}
+		myRoom.SendMessage ("CloseRoom");
 		myRoom.SetActive (false);
 
 	}
@@ -78,13 +81,22 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	}
 
 	void OnPhotonPlayerPropertiesChanged(){
-		Debug.Log ("よばれたよ");
+//		Debug.Log ("player prop changed");
 
 	}
 
 	void OnPhotonCustomRoomPropertiesChanged(){
-		Debug.Log ("room changed");
+//		Debug.Log ("room changed");
 
+	}
+
+	void OnPhotonPlayerConnected (){
+		myRoom.SendMessage ("SetPlayerName");
+
+	}
+
+	void OnPhotonPlayerDisconnected (){
+		myRoom.SendMessage ("SetPlayerName");
 
 	}
 

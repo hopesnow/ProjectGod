@@ -13,18 +13,29 @@ public class MyRoomInfo : MonoBehaviour {
 	int blueCount;
 	int redCount;
 
-
 	// Use this for initialization
 	void Start () {
-		players = new GameObject[6];
 		redCount = 0;
 		blueCount = 0;
+
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	//room初期化処理
+	void OpenRoom(){
+		playerParent.SetActive (true);
+		SetPlayerName ();
+
+	}
+
+	void CloseRoom(){
+		playerParent.SetActive (false);
+
 	}
 
 	void SetRoomInfo(Room room){
@@ -34,14 +45,21 @@ public class MyRoomInfo : MonoBehaviour {
 
 	void SetPlayerName(){
 		for (int i = 0; i < PhotonNetwork.playerList.Length; i++) {
-			GameObject obj = (GameObject)Instantiate(textPrefab);
-			obj.GetComponentInChildren<Text>().text = PhotonNetwork.playerList[i].name;
-			obj.transform.parent = playerParent.transform.parent;
-			obj.GetComponent<RectTransform>().position = new Vector3();
-			obj.GetComponent<RectTransform>().Translate(0, -50.0f * i + 150, 0);
-
+			//first aid
+			if(i >= 6){
+				Debug.Log("Angry God");
+				break;
+			}
+			players[i].SetActive(true);
+			players[i].GetComponent<Text>().text = PhotonNetwork.playerList[i].name;
 
 		}
+
+		for(int i = PhotonNetwork.playerList.Length;i < 6;i++){
+			players[i].SetActive(false);
+
+		}
+
 
 	}
 
