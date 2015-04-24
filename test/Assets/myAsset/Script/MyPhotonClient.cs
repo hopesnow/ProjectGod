@@ -80,16 +80,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
 	}
 
-	void OnPhotonPlayerPropertiesChanged(){
-//		Debug.Log ("player prop changed");
-
-	}
-
-	void OnPhotonCustomRoomPropertiesChanged(){
-//		Debug.Log ("room changed");
-
-	}
-
 	void OnPhotonPlayerConnected (){
 		myRoom.SendMessage ("SetPlayerName");
 
@@ -103,7 +93,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	void CreateRoom(){
 		Debug.Log ("CreateRoom : " + theRoomName.GetComponent<InputField>().text);
 		PhotonNetwork.CreateRoom (theRoomName.GetComponent<InputField>().text, true, true, 6);
-
 
 	}
 
