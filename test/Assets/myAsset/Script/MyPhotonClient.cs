@@ -22,7 +22,7 @@ public enum RoomState
 
 
 public class MyPhotonClient : Photon.MonoBehaviour {
-	public PhotonView myPhotonView = null;
+	private PhotonView myPhotonView = null;
 	public GameObject[] roomUI;
 	public GameObject[] roomName;
 	public GameObject[] roomMember;
@@ -63,6 +63,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
 		myPhotonView = this.GetComponent<PhotonView> ();
 
+
 		HashTable h = new HashTable (){{"PS", PlayerState.room}};
 		PhotonNetwork.player.SetCustomProperties (h);
 
@@ -72,7 +73,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 		myRoom.SetActive (true);
 		myRoom.SendMessage ("SetRoomInfo", PhotonNetwork.room);
 		myRoom.SendMessage ("OpenRoom");
-		Debug.Log("playerName : " + PhotonNetwork.playerName);
 
 	}
 
@@ -100,7 +100,9 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 		for (int i = 0; i < roomInfo.Length; i++) {
 			roomName[i].GetComponent<InputField>().text = roomInfo[i].name;
 			roomMember[i].GetComponent<Text>().text = roomInfo[i].playerCount.ToString() + "/6";
-			roomUI[i].GetComponentInChildren<Button>().interactable = true;
+            if ((RoomState)roomInfo[i].customProperties["RS"] == RoomState.wait)
+                roomUI[i].GetComponentInChildren<Button>().interactable = true;
+            else roomUI[i].GetComponentInChildren<Button>().interactable = false;
 			Debug.Log("Room No." + (i).ToString() + " Player:" + roomInfo[i].playerCount);
 
 		}
@@ -122,11 +124,19 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
 	void CreateRoom(){
 		Debug.Log ("CreateRoom : " + theRoomName.GetComponent<InputField>().text);
-		PhotonNetwork.CreateRoom (theRoomName.GetComponent<InputField>().text, true, true, 6);
+
 		startButton.GetComponent<Button> ().interactable = true;
 
-        HashTable h = new HashTable() {{"RS", RoomState.wait}};
-        
+        RoomOptions ro = new RoomOptions();
+        ro.maxPlayers = 6;
+        ro.isOpen = true;
+        ro.isVisible = true;
+        string[] s = { "RS" };
+        ro.customRoomPropertiesForLobby = s;
+        ro.customRoomProperties = new HashTable() { {"RS", RoomState.wait } };
+
+        PhotonNetwork.CreateRoom(theRoomName.GetComponent<InputField>().text, ro, TypedLobby.Default);
+
 
 	}
 
@@ -142,10 +152,14 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
 		PhotonNetwork.room.open = false;
 
-//		PhotonNetwork.DestroyAll ();
+        HashTable h = new HashTable() {{"RS", RoomState.play} };
+        PhotonNetwork.room.SetCustomProperties(h);
+
+        PhotonNetwork.DestroyAll();
 
 		if (myPhotonView != null) {
-			myPhotonView.RPC ("ToGameMain", PhotonTargets.All);
+            myPhotonView.RPC("ToGameMain", PhotonTargets.All);
+
 			Debug.Log("send success");
 		}
 
@@ -155,6 +169,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	void ToGameMain(){
 		PhotonNetwork.isMessageQueueRunning = false;
 		Debug.Log ("to game main");
+
 		Application.LoadLevel ("GameMain");
 
 	}

@@ -28,7 +28,31 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		Vector2 spd = new Vector2();
+        //if (Input.GetMouseButtonDown(1))
+        //{
+
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hit = new RaycastHit();
+
+        //    if (Physics.Raycast(ray, out hit))
+        //    {
+
+        //        if (hit.collider.gameObject.CompareTag("field"))
+        //        {
+
+        //            GameObject target = new GameObject("target");
+        //            target.transform.position = hit.point;
+        //            tapPoint.transform.position = hit.point;
+        //            MoveTo(target.transform);
+        //            player.gameObject.SendMessage("MoveTo", target.transform);
+
+        //        }
+
+        //    }
+
+        //}
+
+        //Vector2 spd = new Vector2();
 	
 		if (target != null) {
 

@@ -4,7 +4,7 @@ using System.Collections;
 public class CameraControl : MonoBehaviour {
 
 	public Transform player;
-	public Transform AI;
+    //public Transform AI;
 	public float dist;
 
 	public float camSpeed;
@@ -31,7 +31,7 @@ public class CameraControl : MonoBehaviour {
 
 
 		//palyer move
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE
 		if (Input.GetMouseButtonDown (1)) {
 		
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

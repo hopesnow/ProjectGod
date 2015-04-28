@@ -10,13 +10,13 @@ public class MyRoomInfo : MonoBehaviour {
 	public GameObject[] players;
 	public GameObject textPrefab;
 	public GameObject playerParent;
-	int blueCount;
-	int redCount;
+    //int blueCount;
+    //int redCount;
 
 	// Use this for initialization
 	void Start () {
-		redCount = 0;
-		blueCount = 0;
+        //redCount = 0;
+        //blueCount = 0;
 
 		
 	}
