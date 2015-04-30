@@ -56,17 +56,19 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 	[RPC]
 	void GameStartPrepare(){
 
-        HashTable h = new HashTable(){{"PS", PlayerState.play}};
-        PhotonNetwork.player.SetCustomProperties(h);
-
-        PhotonNetwork.room.open = true;
-
         GameObject player = PhotonNetwork.Instantiate("ethanPrefab", blueStart.transform.position, Quaternion.identity, 0);
         player.GetComponent<PlayerController>().controllable = true;
 
         GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
         camera.GetComponent<CameraControl>().player = player.transform;
         camera.SendMessage("SetPlayerCamera");
+
+        HashTable h = new HashTable(){{"PS", PlayerState.play}};
+        PhotonNetwork.player.SetCustomProperties(h);
+
+        PhotonNetwork.room.open = true;
+
+
 		
 	}
 
