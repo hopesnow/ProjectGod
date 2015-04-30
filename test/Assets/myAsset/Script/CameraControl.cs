@@ -19,7 +19,7 @@ public class CameraControl : MonoBehaviour {
 		dist = 10;
 		camSpeed = 15.0f;
 
-		transform.position = GetPlayerCamera();
+        SetPlayerCamera();
 
 		movePos = new Vector3 ();
 		tapPosition = new Vector2 ();
@@ -40,11 +40,11 @@ public class CameraControl : MonoBehaviour {
 			if(Physics.Raycast(ray, out hit)){
 		
 				if(hit.collider.gameObject.CompareTag("field")){
-		
-					GameObject target = new GameObject("target");
-					target.transform.position = hit.point;
-					tapPoint.transform.position = hit.point;
-					player.gameObject.SendMessage("MoveTo", target.transform);
+
+                    GameObject target = new GameObject("target");
+                    target.transform.position = hit.point;
+                    tapPoint.transform.position = hit.point;
+                    player.gameObject.SendMessage("MoveTo", target.transform);
 		
 				}
 		
@@ -110,8 +110,14 @@ public class CameraControl : MonoBehaviour {
 
 	}
 
-	Vector3 GetPlayerCamera(){
+    Vector3 GetPlayerCamera(){
 		Vector3 pos = new Vector3 (player.position.x, player.position.y + dist * (Mathf.Sqrt (3) / 2), player.position.z - dist / 2);
 		return pos;
 	}
+
+    void SetPlayerCamera()
+    {
+        transform.position = GetPlayerCamera();
+    }
+
 }

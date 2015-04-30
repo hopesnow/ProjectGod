@@ -166,8 +166,8 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	}
 
 	[RPC]
-	void ToGameMain(){
-		PhotonNetwork.isMessageQueueRunning = false;
+	void ToGameMain(PhotonMessageInfo info){
+        PhotonNetwork.isMessageQueueRunning = false;
 		Debug.Log ("to game main");
 
 		Application.LoadLevel ("GameMain");

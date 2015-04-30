@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour {
 	public float turnSpeed;
 
 	public RectTransform healthImage;
+    public RectTransform gaugeImage;
+
+    public bool controllable = false;
 
 	// Use this for initialization
 	void Start () {
@@ -28,72 +31,25 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //if (Input.GetMouseButtonDown(1))
-        //{
+        if (controllable)
+        {
 
-        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //    RaycastHit hit = new RaycastHit();
-
-        //    if (Physics.Raycast(ray, out hit))
-        //    {
-
-        //        if (hit.collider.gameObject.CompareTag("field"))
-        //        {
-
-        //            GameObject target = new GameObject("target");
-        //            target.transform.position = hit.point;
-        //            tapPoint.transform.position = hit.point;
-        //            MoveTo(target.transform);
-        //            player.gameObject.SendMessage("MoveTo", target.transform);
-
-        //        }
-
-        //    }
-
-        //}
-
-        //Vector2 spd = new Vector2();
-	
-		if (target != null) {
-
-//			if (agent.SetDestination (new Vector3(target.position.x, transform.position.y, target.position.z))) {
-//				agent.Stop (true);
-//
-//				if ((new Vector2 (target.position.x, target.position.z) - new Vector2 (transform.position.x, transform.position.z)).magnitude < moveSpeed * Time.deltaTime) {
-//
-//					//目的地到達
-//					transform.position = new Vector3 (target.position.x, transform.position.y, target.position.z);
-//					Destroy (target.gameObject);
-//					target = null;
-//				
-//				} else if ((new Vector2 (agent.steeringTarget.x, agent.steeringTarget.z) - new Vector2 (transform.position.x, transform.position.z)).magnitude <= moveSpeed * Time.deltaTime) {
-//					transform.position = new Vector3 (agent.steeringTarget.x, transform.position.y, agent.steeringTarget.z);
-//
-//				} else {
-//					Vector3 temp = (agent.steeringTarget - transform.position).normalized * moveSpeed * Time.deltaTime;
-//					spd = new Vector2 (temp.x, temp.z);
-//					//agent.Move (temp);
-//
-//				}
-//
-//			}
-
-			agent.SetDestination(new Vector3(target.position.x, transform.position.y, target.position.z));
-
-			
-			//transform.LookAt (agent.steeringTarget);
-			//transform.LookAt (Vector3.Lerp (transform.forward + transform.position, agent.steeringTarget, Time.deltaTime * turnSpeed));
-
-		}
-
-		//animation
-		//Vector2 spd = new Vector2 (agent.velocity.x, agent.velocity.z);
-		//anim.SetFloat ("speed", agent.velocity.magnitude);
+            if (target != null)
+            {
 
 
+                agent.SetDestination(new Vector3(target.position.x, transform.position.y, target.position.z));
 
 
-		healthImage.position = Camera.main.WorldToScreenPoint(transform.position);
+                //transform.LookAt (agent.steeringTarget);
+                //transform.LookAt (Vector3.Lerp (transform.forward + transform.position, agent.steeringTarget, Time.deltaTime * turnSpeed));
+
+            }
+
+        }
+
+		healthImage.position = Camera.main.WorldToScreenPoint(transform.position) + new Vector3(0, 40, 0);
+        gaugeImage.position = healthImage.position;
 
 
 

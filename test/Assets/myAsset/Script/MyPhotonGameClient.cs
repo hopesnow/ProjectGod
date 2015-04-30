@@ -5,6 +5,10 @@ using HashTable = ExitGames.Client.Photon.Hashtable;
 public class MyPhotonGameClient : Photon.MonoBehaviour {
 	private PhotonView myPhotonView;
 
+
+    public GameObject blueStart;
+    public GameObject redStart;
+
 	// Use this for initialization
 	void Start () {
 		PhotonNetwork.isMessageQueueRunning = true;
@@ -13,6 +17,10 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 		PhotonNetwork.player.SetCustomProperties (h);
 
 		myPhotonView = this.GetComponent<PhotonView> ();
+
+
+
+
 
 	}
 
@@ -31,13 +39,14 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 					}
 				}
 
-                if (count == otherPlayers)
-                {
-                    myPhotonView.RPC("GameStartPrepare", PhotonTargets.All);
-
-                }
+                
 			}
 
+            if (count == otherPlayers)
+            {
+                myPhotonView.RPC("GameStartPrepare", PhotonTargets.All);
+
+            }
 
 		}
 
@@ -51,6 +60,13 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
         PhotonNetwork.player.SetCustomProperties(h);
 
         PhotonNetwork.room.open = true;
+
+        GameObject player = PhotonNetwork.Instantiate("ethanPrefab", blueStart.transform.position, Quaternion.identity, 0);
+        player.GetComponent<PlayerController>().controllable = true;
+
+        GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+        camera.GetComponent<CameraControl>().player = player.transform;
+        camera.SendMessage("SetPlayerCamera");
 		
 	}
 
