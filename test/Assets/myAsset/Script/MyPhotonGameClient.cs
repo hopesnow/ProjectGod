@@ -10,7 +10,7 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
     public GameObject redStart;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		PhotonNetwork.isMessageQueueRunning = true;
 
 		HashTable h = new HashTable (){{"PS", PlayerState.init}};
@@ -45,13 +45,13 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
             if (count == otherPlayers)
             {
                 myPhotonView.RPC("GameStartPrepare", PhotonTargets.All);
+                Debug.Log("send");
 
             }
 
 		}
 
 	}
-
 	
 	[RPC]
 	void GameStartPrepare(){
@@ -59,17 +59,23 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
         GameObject player = PhotonNetwork.Instantiate("ethanPrefab", blueStart.transform.position, Quaternion.identity, 0);
         player.GetComponent<PlayerController>().controllable = true;
 
+
         GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
         camera.GetComponent<CameraControl>().player = player.transform;
         camera.SendMessage("SetPlayerCamera");
+
+        Debug.Log(PhotonNetwork.player.name + "がログインしました");
 
         HashTable h = new HashTable(){{"PS", PlayerState.play}};
         PhotonNetwork.player.SetCustomProperties(h);
 
         PhotonNetwork.room.open = true;
 
+        foreach(PhotonPlayer pp in PhotonNetwork.playerList)
+        {
+            Debug.Log(pp.name + " : " + (PlayerState)pp.customProperties["PS"]);
+        }
 
-		
 	}
 
 

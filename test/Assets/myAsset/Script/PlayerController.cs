@@ -15,17 +15,41 @@ public class PlayerController : MonoBehaviour {
     public bool controllable = false;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 	
 		agent = GetComponentInChildren<NavMeshAgent> ();
 
 		agent.updateRotation = true;
 		agent.updatePosition = true;
 
-		anim = GetComponentInChildren<Animator> ();
+        GameObject[] higo = GameObject.FindGameObjectsWithTag("healthGauge");
+        for (int i = 0; i < higo.Length; i++)
+        {
+            if (higo[i].GetComponent<RectTransform>().localScale == Vector3.zero)
+            {
+                higo[i].GetComponent<RectTransform>().localScale = Vector3.one;
+                healthImage = higo[i].GetComponent<RectTransform>();
+                break;
+            }
+        }
+
+        GameObject[] gigo = GameObject.FindGameObjectsWithTag("gaugeBack");
+        for (int i = 0; i < gigo.Length; i++)
+        {
+            if (gigo[i].GetComponent<RectTransform>().localScale == Vector3.zero)
+            {
+                gigo[i].GetComponent<RectTransform>().localScale = Vector3.one;
+                gaugeImage = gigo[i].GetComponent<RectTransform>();
+                break;
+            }
+        }
+
+
+        anim = GetComponentInChildren<Animator>();
 
 		moveSpeed = 3.0f;
 		turnSpeed = 5.0f;
+
 	}
 	
 	// Update is called once per frame
@@ -48,10 +72,11 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-		healthImage.position = Camera.main.WorldToScreenPoint(transform.position) + new Vector3(0, 40, 0);
-        gaugeImage.position = healthImage.position;
-
-
+        if (healthImage != null)
+        {
+            healthImage.position = Camera.main.WorldToScreenPoint(transform.position) + new Vector3(0, 40, 0);
+            gaugeImage.position = healthImage.position;
+        }
 
 	}
 
@@ -63,5 +88,10 @@ public class PlayerController : MonoBehaviour {
 		this.target = target;
 	
 	}
+
+    void SetHealthGauge(int number)
+    {
+
+    }
 
 }

@@ -42,7 +42,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	}
 
 	void OnJoinedLobby() {
-		Debug.Log("Joined Lobby");
 //		PhotonNetwork.JoinRandomRoom();
 		SetPlayerName ();
 		playerName.GetComponent<InputField> ().interactable = true;
@@ -50,7 +49,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	}
 
 	void OnLeftLobby(){
-		Debug.Log ("Lefted Lobby");
 		for (int i = 0; i < roomUI.Length; i++) {
 			roomUI[i].SetActive(true);
 		}
@@ -59,7 +57,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	}
 
 	void OnJoinedRoom(){
-		Debug.Log ("Join Room Sccess : " + PhotonNetwork.room.name);
 
 		myPhotonView = this.GetComponent<PhotonView> ();
 
@@ -77,7 +74,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	}
 
 	void OnLeftRoom(){
-		Debug.Log ("Leave Room");
 
 		myPhotonView = null;
 
@@ -103,7 +99,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
             if ((RoomState)roomInfo[i].customProperties["RS"] == RoomState.wait)
                 roomUI[i].GetComponentInChildren<Button>().interactable = true;
             else roomUI[i].GetComponentInChildren<Button>().interactable = false;
-			Debug.Log("Room No." + (i).ToString() + " Player:" + roomInfo[i].playerCount);
 
 		}
 		for (int i = roomInfo.Length; i < 3; i++) {
@@ -123,7 +118,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	}
 
 	void CreateRoom(){
-		Debug.Log ("CreateRoom : " + theRoomName.GetComponent<InputField>().text);
 
 		startButton.GetComponent<Button> ().interactable = true;
 
@@ -147,7 +141,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	}
 
 	public void StartGame(){
-		Debug.Log ("GameMain へ移行");
 		//Send RPC other players
 
 		PhotonNetwork.room.open = false;
@@ -159,8 +152,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
 		if (myPhotonView != null) {
             myPhotonView.RPC("ToGameMain", PhotonTargets.All);
-
-			Debug.Log("send success");
 		}
 
 	}
@@ -168,7 +159,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	[RPC]
 	void ToGameMain(PhotonMessageInfo info){
         PhotonNetwork.isMessageQueueRunning = false;
-		Debug.Log ("to game main");
 
 		Application.LoadLevel ("GameMain");
 

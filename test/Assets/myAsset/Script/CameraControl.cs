@@ -19,8 +19,6 @@ public class CameraControl : MonoBehaviour {
 		dist = 10;
 		camSpeed = 15.0f;
 
-        SetPlayerCamera();
-
 		movePos = new Vector3 ();
 		tapPosition = new Vector2 ();
 
@@ -70,12 +68,33 @@ public class CameraControl : MonoBehaviour {
 //				
 //			}
 //		}
+
+        if (Input.GetMouseButtonDown (0)) {
+		
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit = new RaycastHit();
+		
+			if(Physics.Raycast(ray, out hit)){
+		
+				if(hit.collider.gameObject.CompareTag("field")){
+
+                    GameObject target = new GameObject("target");
+                    target.transform.position = hit.point;
+                    tapPoint.transform.position = hit.point;
+                    player.gameObject.SendMessage("MoveTo", target.transform);
+		
+				}
+		
+			}
+		
+		}
+
 #endif
 
 
+#if UNITY_EDITOR || UNITY_STANDALONE
 
-
-		//Camera Moving
+        //Camera Moving
 		if (Input.GetMouseButton (0)) {
 
 			//Moving Map Mode LoL
@@ -97,15 +116,18 @@ public class CameraControl : MonoBehaviour {
 
 		}
 
-#if UNITY_ANDROID
-		transform.position = Vector3.Lerp (transform.position, GetPlayerCamera(), Time.deltaTime * camSpeed);
 #endif
+
+#if UNITY_EDITOR || UNITY_STANDALONE
 		//Camera Move to Player
 		if (Input.GetKey(KeyCode.Space)) {
 			transform.position = Vector3.Lerp (transform.position, GetPlayerCamera(), Time.deltaTime * camSpeed);
 		} else {
 			
 		}
+#elif UNITY_ANDROID
+        transform.position = Vector3.Lerp(transform.position, GetPlayerCamera(), Time.deltaTime * camSpeed);
+#endif
 
 
 	}
