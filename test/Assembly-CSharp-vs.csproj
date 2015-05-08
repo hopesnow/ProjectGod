@@ -170,6 +170,7 @@
      <Compile Include="Assets\myAsset\Script\CameraControl.cs" />
      <Compile Include="Assets\myAsset\Script\CanvasSetter.cs" />
      <Compile Include="Assets\myAsset\Script\GameManager.cs" />
+     <Compile Include="Assets\myAsset\Script\HeroState.cs" />
      <Compile Include="Assets\myAsset\Script\LobbyButton.cs" />
      <Compile Include="Assets\myAsset\Script\MyNetworkCharactor.cs" />
      <Compile Include="Assets\myAsset\Script\MyPhotonClient.cs" />
