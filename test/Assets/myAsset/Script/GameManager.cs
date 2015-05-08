@@ -26,32 +26,32 @@ public class GameManager : MonoBehaviour {
 	}
 
 
-	void AddRedPlayer(GameObject player){
-		for (int i = 0; i < redTeamPlayer.Length; i++) {
-			if(redTeamPlayer[i] == null){
-				redTeamPlayer[i] = player;
-				GameObject health = (GameObject)Instantiate(healthPrefabRed);
-				player.GetComponent<PlayerController>().healthImage = health.GetComponent<RectTransform>();
-				player.transform.position = redStart.position;
+    //void AddRedPlayer(GameObject player){
+    //    for (int i = 0; i < redTeamPlayer.Length; i++) {
+    //        if(redTeamPlayer[i] == null){
+    //            redTeamPlayer[i] = player;
+    //            GameObject health = (GameObject)Instantiate(healthPrefabRed);
+    //            player.GetComponent<PlayerController>().healthImage = health;
+    //            player.transform.position = redStart.position;
 
-			}
+    //        }
 
-		}
+    //    }
 
-	}
+    //}
 
-	void AddBluePlayer(GameObject player){
-		for (int i = 0; i < blueTeamPlayer.Length; i++) {
-			if(blueTeamPlayer[i] == null){
-				blueTeamPlayer[i] = player;
-				GameObject health = (GameObject)Instantiate(healthPrefabBlue);
-				player.GetComponent<PlayerController>().healthImage = health.GetComponent<RectTransform>();
-				player.transform.position = blueStart.position;
+    //void AddBluePlayer(GameObject player){
+    //    for (int i = 0; i < blueTeamPlayer.Length; i++) {
+    //        if(blueTeamPlayer[i] == null){
+    //            blueTeamPlayer[i] = player;
+    //            GameObject health = (GameObject)Instantiate(healthPrefabBlue);
+    //            player.GetComponent<PlayerController>().healthImage = health;
+    //            player.transform.position = blueStart.position;
 
-			}
+    //        }
 
-		}
+    //    }
 
-	}
+    //}
 
 }

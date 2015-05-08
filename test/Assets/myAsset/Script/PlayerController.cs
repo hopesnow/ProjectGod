@@ -9,8 +9,8 @@ public class PlayerController : MonoBehaviour {
 	public float moveSpeed;
 	public float turnSpeed;
 
-	public RectTransform healthImage;
-    public RectTransform gaugeImage;
+	public GameObject healthImage;
+    public GameObject gaugeImage;
 
     public bool controllable = false;
 
@@ -22,24 +22,26 @@ public class PlayerController : MonoBehaviour {
 		agent.updateRotation = true;
 		agent.updatePosition = true;
 
-        GameObject[] higo = GameObject.FindGameObjectsWithTag("healthGauge");
-        for (int i = 0; i < higo.Length; i++)
-        {
-            if (higo[i].GetComponent<RectTransform>().localScale == Vector3.zero)
-            {
-                higo[i].GetComponent<RectTransform>().localScale = Vector3.one;
-                healthImage = higo[i].GetComponent<RectTransform>();
-                break;
-            }
-        }
-
         GameObject[] gigo = GameObject.FindGameObjectsWithTag("gaugeBack");
         for (int i = 0; i < gigo.Length; i++)
         {
             if (gigo[i].GetComponent<RectTransform>().localScale == Vector3.zero)
             {
                 gigo[i].GetComponent<RectTransform>().localScale = Vector3.one;
-                gaugeImage = gigo[i].GetComponent<RectTransform>();
+                gaugeImage = gigo[i];
+                gigo[i].SendMessage("SetTarget", transform);
+                break;
+            }
+        }
+
+        GameObject[] higo = GameObject.FindGameObjectsWithTag("healthGauge");
+        for (int i = 0; i < higo.Length; i++)
+        {
+            if (higo[i].GetComponent<RectTransform>().localScale == Vector3.zero)
+            {
+                higo[i].GetComponent<RectTransform>().localScale = Vector3.one;
+                healthImage = higo[i];
+                higo[i].SendMessage("SetTarget", transform);
                 break;
             }
         }
@@ -72,11 +74,6 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (healthImage != null)
-        {
-            healthImage.position = Camera.main.WorldToScreenPoint(transform.position) + new Vector3(0, 40, 0);
-            gaugeImage.position = healthImage.position;
-        }
 
 	}
 
