@@ -65,6 +65,17 @@ public class PlayerController : MonoBehaviour {
             if (target != null)
             {
 
+                if (targetting)
+                {
+                    if (Vector3.Distance(transform.position, target.position) < gameObject.GetComponent<HeroState>().RANGE)
+                    {
+                        GameObject t = new GameObject("target");
+                        t.transform.position = transform.position;
+                        MoveTo(t.transform);
+                        targetting = false;
+                        transform.LookAt(target.position);
+                    }
+                }
 
                 agent.SetDestination(new Vector3(target.position.x, transform.position.y, target.position.z));
 
