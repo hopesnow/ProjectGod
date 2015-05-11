@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour {
 
     public bool controllable = false;
 
+    public bool targetting = false;
+
 	// Use this for initialization
 	void Awake () {
 	
