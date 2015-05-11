@@ -39,19 +39,21 @@ public class CameraControl : MonoBehaviour {
 
                 if (hit.collider.gameObject.CompareTag("field"))
                 {
-
                     GameObject target = new GameObject("target");
                     target.transform.position = hit.point;
                     tapPoint.transform.position = hit.point;
                     player.gameObject.SendMessage("MoveTo", target.transform);
+                    player.gameObject.GetComponent<PlayerController>().targetting = false;
 
                 }
                 else if(hit.collider.gameObject.CompareTag("canAttackObject"))
                 {
+                    Debug.Log("sdkllkd");
                     GameObject target = new GameObject("target");
                     target.transform.position = hit.collider.gameObject.transform.position;
                     tapPoint.transform.position = hit.collider.gameObject.transform.position;
                     player.gameObject.SendMessage("MoveTo", target.transform);
+                    player.gameObject.GetComponent<PlayerController>().targetting = true;
 
                 }
 		
