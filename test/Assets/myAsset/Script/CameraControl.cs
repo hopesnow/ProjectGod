@@ -48,7 +48,6 @@ public class CameraControl : MonoBehaviour {
                 }
                 else if(hit.collider.gameObject.CompareTag("canAttackObject"))
                 {
-                    Debug.Log("sdkllkd");
                     GameObject target = new GameObject("target");
                     target.transform.position = hit.collider.gameObject.transform.position;
                     tapPoint.transform.position = hit.collider.gameObject.transform.position;
