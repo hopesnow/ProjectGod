@@ -36,15 +36,24 @@ public class CameraControl : MonoBehaviour {
 			RaycastHit hit = new RaycastHit();
 		
 			if(Physics.Raycast(ray, out hit)){
-		
-				if(hit.collider.gameObject.CompareTag("field")){
+
+                if (hit.collider.gameObject.CompareTag("field"))
+                {
 
                     GameObject target = new GameObject("target");
                     target.transform.position = hit.point;
                     tapPoint.transform.position = hit.point;
                     player.gameObject.SendMessage("MoveTo", target.transform);
-		
-				}
+
+                }
+                else if(hit.collider.gameObject.CompareTag("canAttackObject"))
+                {
+                    GameObject target = new GameObject("target");
+                    target.transform.position = hit.collider.gameObject.transform.position;
+                    tapPoint.transform.position = hit.collider.gameObject.transform.position;
+                    player.gameObject.SendMessage("MoveTo", target.transform);
+
+                }
 		
 			}
 		
