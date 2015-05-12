@@ -50,9 +50,10 @@ public class CameraControl : MonoBehaviour {
                 {
                     GameObject target = new GameObject("target");
                     target.transform.position = hit.collider.gameObject.transform.position;
-                    tapPoint.transform.position = hit.collider.gameObject.transform.position;
+                    tapPoint.transform.position = target.transform.position;
                     player.gameObject.SendMessage("MoveTo", target.transform);
                     player.gameObject.GetComponent<PlayerController>().targetting = true;
+                    player.gameObject.GetComponent<PlayerController>().targetttingObj = hit.collider.gameObject.transform;
 
                 }
 		

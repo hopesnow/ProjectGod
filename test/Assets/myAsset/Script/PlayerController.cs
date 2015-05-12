@@ -1,6 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum CharacterAnimState
+{
+    idle, 
+    walk, 
+    attack,
+    skill1,
+    skill2,
+    skill3,
+}
+
 public class PlayerController : MonoBehaviour {
 
 	NavMeshAgent agent;
@@ -13,8 +23,10 @@ public class PlayerController : MonoBehaviour {
     public GameObject gaugeImage;
 
     public bool controllable = false;
-
     public bool targetting = false;
+    public Transform targetttingObj = null;
+
+    public CharacterAnimState animState;
 
 	// Use this for initialization
 	void Awake () {
@@ -50,6 +62,7 @@ public class PlayerController : MonoBehaviour {
 
 
         anim = GetComponentInChildren<Animator>();
+        animState = CharacterAnimState.idle;
 
 		moveSpeed = 3.0f;
 		turnSpeed = 5.0f;
@@ -67,12 +80,14 @@ public class PlayerController : MonoBehaviour {
 
                 if (targetting)
                 {
-                    if (Vector3.Distance(transform.position, target.position) < gameObject.GetComponent<HeroState>().RANGE)
+                    if (Vector3.Distance(transform.position, target.position) < gameObject.GetComponent<ObjectState>().RANGE + targetttingObj.gameObject.GetComponent<ObjectState>().WIDTH)
                     {
+                        Debug.Log("width: " + GetComponent<ObjectState>().WIDTH);
                         GameObject t = new GameObject("target");
                         t.transform.position = transform.position;
                         MoveTo(t.transform);
                         targetting = false;
+                        targetttingObj = null;
                         transform.LookAt(target.position);
                     }
                 }
@@ -82,6 +97,36 @@ public class PlayerController : MonoBehaviour {
 
                 //transform.LookAt (agent.steeringTarget);
                 //transform.LookAt (Vector3.Lerp (transform.forward + transform.position, agent.steeringTarget, Time.deltaTime * turnSpeed));
+
+                float spd = agent.velocity.magnitude;
+                anim.SetFloat("speed", spd);
+
+                if ((transform.position - target.position).magnitude < 0.1f)
+                {
+                    Destroy(target.gameObject);
+                    target = null;
+                    anim.SetFloat("speed", 0);
+                    animState = CharacterAnimState.idle;
+                }
+                else
+                {
+                    animState = CharacterAnimState.walk;
+                }
+
+            }
+
+        }
+        else //自分が操作しない場合
+        {
+            Debug.Log("animstate : " + animState);
+            switch (animState)
+            {
+                case CharacterAnimState.idle:
+                    anim.SetFloat("speed", 0);
+                    break;
+                case CharacterAnimState.walk:
+                    anim.SetFloat("speed", 3.5f);
+                    break;
 
             }
 
