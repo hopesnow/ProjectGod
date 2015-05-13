@@ -82,7 +82,6 @@ public class PlayerController : MonoBehaviour {
                 {
                     if (Vector3.Distance(transform.position, target.position) < gameObject.GetComponent<ObjectState>().RANGE + targetttingObj.gameObject.GetComponent<ObjectState>().WIDTH)
                     {
-                        Debug.Log("width: " + GetComponent<ObjectState>().WIDTH);
                         GameObject t = new GameObject("target");
                         t.transform.position = transform.position;
                         MoveTo(t.transform);
