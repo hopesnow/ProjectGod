@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour {
 
     public bool controllable = false;
     public bool targetting = false;
-    public Transform targetttingObj = null;
+    public Transform targettingObj = null;
 
     public CharacterAnimState animState;
 
@@ -80,14 +80,19 @@ public class PlayerController : MonoBehaviour {
 
                 if (targetting)
                 {
-                    if (Vector3.Distance(transform.position, target.position) < gameObject.GetComponent<ObjectState>().RANGE + targetttingObj.gameObject.GetComponent<ObjectState>().WIDTH)
+                    if (Vector3.Distance(transform.position, target.position) < gameObject.GetComponent<ObjectState>().RANGE + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH)
                     {
                         GameObject t = new GameObject("target");
                         t.transform.position = transform.position;
                         MoveTo(t.transform);
+
+                        targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
+
                         targetting = false;
-                        targetttingObj = null;
+                        targettingObj = null;
                         transform.LookAt(target.position);
+                        //targetに対して攻撃
+                        
                     }
                 }
 
