@@ -49,10 +49,11 @@ public class CameraControl : MonoBehaviour {
                 else if(hit.collider.gameObject.CompareTag("canAttackObject"))
                 {
                     GameObject target = new GameObject("target");
-                    target.transform.position = hit.collider.gameObject.transform.position;
-                    tapPoint.transform.position = hit.collider.gameObject.transform.position;
+                    target.transform.position = hit.collider.gameObject.transform.position + Vector3.Normalize(player.transform.position - hit.collider.gameObject.transform.position) * 0.5f;
+                    tapPoint.transform.position = target.transform.position;
                     player.gameObject.SendMessage("MoveTo", target.transform);
                     player.gameObject.GetComponent<PlayerController>().targetting = true;
+                    player.gameObject.GetComponent<PlayerController>().targetttingObj = hit.collider.gameObject.transform;
 
                 }
 		
