@@ -1,6 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\Documents\New Unity Project\Assets\UnityChan\Scripts\IdleChanger.cs">
+    <Files>
+      <File FileName="..\..\..\Documents\New Unity Project\Assets\UnityChan\Scripts\IdleChanger.cs" Line="14" Column="26" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
