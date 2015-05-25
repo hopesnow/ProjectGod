@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour {
         }
         else //自分が操作しない場合
         {
-            Debug.Log("animstate : " + animState);
+
             switch (animState)
             {
                 case CharacterAnimState.idle:

@@ -6,6 +6,8 @@ public class ObjectState : MonoBehaviour {
     protected int health, max_health, attack, protect, attack_speed;
     protected float range, width;
 
+    protected PhotonView myPhotonView;
+
     protected virtual void Awake()
     {
         health = 100;
@@ -22,7 +24,7 @@ public class ObjectState : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-
+        myPhotonView = GameObject.Find("Photon").GetComponent<PhotonView>();
 
 	}
 	
@@ -49,6 +51,15 @@ public class ObjectState : MonoBehaviour {
     protected void DamageAttack(int d)
     {
         int damage = (d - protect);
+        myPhotonView.RPC("Damage", PhotonTargets.All, damage);
+        Debug.Log("damaged");
+
+    }
+
+    [RPC]
+    void Damage(int damage)
+    {
+        Debug.Log("damaged 2");
         if (health > damage)
         {
             health -= damage;
@@ -57,12 +68,9 @@ public class ObjectState : MonoBehaviour {
         {
             health = 0;
             //dead
-
         }
 
     }
-
-    public int HEALTH { get { return health; } set { health = value; } }
 
 
 }
