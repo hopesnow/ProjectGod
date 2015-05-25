@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour {
 
     public bool controllable = false;
     public bool targetting = false;
-    public Transform targetttingObj = null;
+    public Transform targettingObj = null;
 
     public CharacterAnimState animState;
 
@@ -80,14 +80,30 @@ public class PlayerController : MonoBehaviour {
 
                 if (targetting)
                 {
-                    if (Vector3.Distance(transform.position, target.position) < gameObject.GetComponent<ObjectState>().RANGE + targetttingObj.gameObject.GetComponent<ObjectState>().WIDTH)
+                    if (Vector3.Distance(transform.position, target.position) < gameObject.GetComponent<ObjectState>().RANGE + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH)
                     {
                         GameObject t = new GameObject("target");
                         t.transform.position = transform.position;
                         MoveTo(t.transform);
+
+                        if (animState == CharacterAnimState.idle || animState == CharacterAnimState.walk)
+                        {
+                            anim.SetTrigger("attack");
+                            targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
+                        }
+
+                        //AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
+                        //if (!state.IsName("NormalAttack"))
+                        //{
+                        //    anim.SetTrigger("attack");
+                        //    targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
+                        //}
+
+                        transform.LookAt(targettingObj);
                         targetting = false;
-                        targetttingObj = null;
-                        transform.LookAt(target.position);
+                        targettingObj = null;
+                        //targetに対して攻撃
+                        
                     }
                 }
 
