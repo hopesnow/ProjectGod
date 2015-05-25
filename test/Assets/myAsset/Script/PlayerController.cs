@@ -86,11 +86,22 @@ public class PlayerController : MonoBehaviour {
                         t.transform.position = transform.position;
                         MoveTo(t.transform);
 
-                        targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
+                        if (animState == CharacterAnimState.idle || animState == CharacterAnimState.walk)
+                        {
+                            anim.SetTrigger("attack");
+                            targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
+                        }
 
+                        //AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
+                        //if (!state.IsName("NormalAttack"))
+                        //{
+                        //    anim.SetTrigger("attack");
+                        //    targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
+                        //}
+
+                        transform.LookAt(targettingObj);
                         targetting = false;
                         targettingObj = null;
-                        transform.LookAt(target.position);
                         //targetに対して攻撃
                         
                     }
