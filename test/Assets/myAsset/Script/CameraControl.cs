@@ -14,6 +14,9 @@ public class CameraControl : MonoBehaviour {
 	Vector3 movePos;
 	Vector2 tapPosition;
 
+    bool ending = false;
+    GameObject endObject = null;
+
 	// Use this for initialization
 	void Start () {
 		dist = 10;
@@ -27,11 +30,18 @@ public class CameraControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        if(ending){
+
+            transform.position = Vector3.Lerp(transform.position, GetCameraPos(endObject.transform.position), Time.deltaTime * 2.0f);
+
+            return;
+
+        }
 
 		//palyer move
 #if UNITY_EDITOR || UNITY_STANDALONE
 		if (Input.GetMouseButtonDown (1)) {
-		
+
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit = new RaycastHit();
 		
@@ -62,30 +72,14 @@ public class CameraControl : MonoBehaviour {
 		}
 
 #elif UNITY_ANDROID
-//		for(int i = 0;i < Input.touchCount;i++){
-//
-//			if (Input.touches[i].phase == TouchPhase.Began) {
-//				Ray ray = Camera.main.ScreenPointToRay(Input.touches[i].position);
-//				RaycastHit hit = new RaycastHit();
-//				
-//				if(Physics.Raycast(ray, out hit)){
-//					if(hit.collider.gameObject.CompareTag("field")){
-//						GameObject target = new GameObject("target");
-//						target.transform.position = hit.point;
-//						tapPoint.transform.position = hit.point;
-//						player.gameObject.SendMessage("MoveTo", target.transform);
-//					}
-//				}
-//				
-//			}
-//		}
+
 
         if (Input.GetMouseButtonDown (0)) {
 		
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit = new RaycastHit();
 		
-			if(Physics.Raycast(ray, out hit)){
+			if(Physics.Raycast(ray, out hit)){s
 		
 				if(hit.collider.gameObject.CompareTag("field")){
 
@@ -95,6 +89,16 @@ public class CameraControl : MonoBehaviour {
                     player.gameObject.SendMessage("MoveTo", target.transform);
 		
 				}
+                else if(hit.collider.gameObject.CompareTag("canAttackObject"))
+                {
+                    GameObject target = new GameObject("target");
+                    target.transform.position = hit.collider.gameObject.transform.position + Vector3.Normalize(player.transform.position - hit.collider.gameObject.transform.position) * 0.5f;
+                    tapPoint.transform.position = target.transform.position;
+                    player.gameObject.SendMessage("MoveTo", target.transform);
+                    player.gameObject.GetComponent<PlayerController>().targetting = true;
+                    player.gameObject.GetComponent<PlayerController>().targettingObj = hit.collider.gameObject.transform;
+
+                }
 		
 			}
 		
@@ -148,9 +152,23 @@ public class CameraControl : MonoBehaviour {
 		return pos;
 	}
 
+    Vector3 GetCameraPos(Vector3 pos)
+    {
+        return new Vector3(pos.x, pos.y + dist * (Mathf.Sqrt(3) / 2), pos.z - dist / 2);
+    }
+
     void SetPlayerCamera()
     {
         transform.position = GetPlayerCamera();
+    }
+
+    void EndGame(string defeatObject)
+    {
+
+        player.GetComponent<PlayerController>().controllable = false;
+        ending = true;
+        endObject = GameObject.Find(defeatObject);
+
     }
 
 }

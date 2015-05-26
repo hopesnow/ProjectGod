@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour {
                         if (animState == CharacterAnimState.idle || animState == CharacterAnimState.walk)
                         {
                             anim.SetTrigger("attack");
+                            animState = CharacterAnimState.attack;
                             targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
                         }
 
@@ -142,11 +143,16 @@ public class PlayerController : MonoBehaviour {
                 case CharacterAnimState.walk:
                     anim.SetFloat("speed", 3.5f);
                     break;
+                case CharacterAnimState.attack:
+                    anim.SetTrigger("attack");
+                    break;
+
 
             }
 
         }
 
+        
 
 	}
 
@@ -159,9 +165,9 @@ public class PlayerController : MonoBehaviour {
 	
 	}
 
-    void SetHealthGauge(int number)
-    {
+    //void SetHealthGauge(int number)
+    //{
 
-    }
+    //}
 
 }

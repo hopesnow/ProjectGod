@@ -10,18 +10,20 @@ public class BaseState : ObjectState {
         width = transform.localScale.x / 2;
     }
 
-    void Damage(int d)
+
+
+    protected override int DamageCalc(int d)
     {
         int damage = (int)(d * 0.5f);
-        if (health > damage)
-        {
-            health -= damage;
-        }
-        else
-        {
-            //dead
+        return damage;
+    }
 
-        }
+    protected override void DeadEvent()
+    {
+
+        GameObject.Find("Photon").SendMessage("GameEndRPC", gameObject.name);
+        Debug.Log("Dead BASE");
+
     }
 
 

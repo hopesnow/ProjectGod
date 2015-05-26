@@ -78,5 +78,20 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
 	}
 
+    void GameEndRPC(string defeatBase)
+    {
+        myPhotonView.RPC("GameEnd", PhotonTargets.All, defeatBase);
+
+    }
+
+    [RPC]
+    void GameEnd(string defeatBase)
+    {
+
+        GameObject.Find("Main Camera").SendMessage("EndGame", defeatBase);
+        GameObject.Find(defeatBase).transform.localScale = Vector3.zero;
+
+    }
+
 
 }

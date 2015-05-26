@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ObjectState : MonoBehaviour {
+public class ObjectState : Photon.MonoBehaviour {
 
     protected int health, max_health, attack, protect, attack_speed;
     protected float range, width;
@@ -18,13 +18,15 @@ public class ObjectState : MonoBehaviour {
         range = 1.00f;
         width = 0.0f;
         //melee 1.5くら？ range 5.00くらい
+
+        myPhotonView = gameObject.GetComponent<PhotonView>();
         
     }
 
 	// Use this for initialization
 	void Start () {
 
-        myPhotonView = GameObject.Find("Photon").GetComponent<PhotonView>();
+
 
 	}
 	
@@ -52,14 +54,13 @@ public class ObjectState : MonoBehaviour {
     {
         int damage = (d - protect);
         myPhotonView.RPC("Damage", PhotonTargets.All, damage);
-        Debug.Log("damaged");
 
     }
 
     [RPC]
-    void Damage(int damage)
+    protected void Damage(int d)
     {
-        Debug.Log("damaged 2");
+        int damage = DamageCalc(d);
         if (health > damage)
         {
             health -= damage;
@@ -67,8 +68,18 @@ public class ObjectState : MonoBehaviour {
         else
         {
             health = 0;
+            DeadEvent();
             //dead
         }
+
+    }
+
+    protected virtual int DamageCalc(int d)
+    {
+        return d;
+    }
+
+    protected virtual void DeadEvent(){
 
     }
 
