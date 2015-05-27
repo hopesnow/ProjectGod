@@ -1,12 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum TEAM
+{
+    BLUE,
+    RED,
+    NEUTRAL,
+}
+
 public class ObjectState : Photon.MonoBehaviour {
 
     protected int health, max_health, attack, protect, attack_speed;
     protected float range, width;
 
     protected PhotonView myPhotonView;
+
+    public TEAM team;
 
     protected virtual void Awake()
     {
@@ -31,7 +40,7 @@ public class ObjectState : Photon.MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	protected virtual void Update () {
 	
 	}
 

@@ -10,6 +10,12 @@ public class BaseState : ObjectState {
         width = transform.localScale.x / 2;
     }
 
+    protected override void Update()
+    {
+        base.Update();
+
+
+    }
 
 
     protected override int DamageCalc(int d)

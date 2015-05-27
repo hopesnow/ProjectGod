@@ -1,13 +1,10 @@
-PlayerController.csのrotationを自分で変更するようにするか
 
-Motionなにが最低限いるか
-	idle
-	run
-	walk
-	attack
-	skill1
-	skill2
-	skill3
-	dead
-	fun(お楽しみモーション？)
+tower壊れてゲーム終了
+	player移動できないようにする
+	ベースの破壊アニメーション
+	
+
+チームごとに攻撃判定つける
+
+minion waveを作る
 
