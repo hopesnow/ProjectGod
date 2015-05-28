@@ -9,7 +9,8 @@ using HashTable = ExitGames.Client.Photon.Hashtable;
 public enum PlayerState{
 	room = 0,
 	init = 1,
-	play = 2,
+	playstart = 2,
+    play = 3,
 
 }
 

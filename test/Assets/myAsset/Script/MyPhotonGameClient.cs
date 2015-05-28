@@ -9,6 +9,8 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
     public GameObject blueStart;
     public GameObject redStart;
 
+    GameObject player;
+
 	// Use this for initialization
 	void Awake () {
 		PhotonNetwork.isMessageQueueRunning = true;
@@ -27,36 +29,63 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (PhotonNetwork.player.isMasterClient && (PlayerState)PhotonNetwork.player.customProperties["PS"] == PlayerState.init) {
+        if (PhotonNetwork.player.isMasterClient && (PlayerState)PhotonNetwork.player.customProperties["PS"] == PlayerState.init)
+        {
 
-			int count = 0;
-			int otherPlayers = PhotonNetwork.otherPlayers.Length;
+            int count = 0;
+            int otherPlayers = PhotonNetwork.otherPlayers.Length;
 
-			if(otherPlayers != 0){
-				foreach(PhotonPlayer pp in PhotonNetwork.otherPlayers){
-					if((PlayerState)pp.customProperties["PS"] == PlayerState.init){
-						count++;
-					}
-				}
-
-                
-			}
-
-            if (count == otherPlayers)
+            if (otherPlayers != 0)
             {
-                myPhotonView.RPC("GameStartPrepare", PhotonTargets.All);
-                Debug.Log("send");
+                foreach (PhotonPlayer pp in PhotonNetwork.otherPlayers)
+                {
+                    if ((PlayerState)pp.customProperties["PS"] == PlayerState.init)
+                    {
+                        count++;
+                    }
+                }
+
 
             }
 
-		}
+            if (count == otherPlayers)
+            {
+                //全員init終わったらprepare実行
+                myPhotonView.RPC("GameStartPrepare", PhotonTargets.All);
+
+            }
+
+        }
+        //}else if(PhotonNetwork.player.isMasterClient && (PlayerState)PhotonNetwork.player.customProperties["PS"] == PlayerState.playstart){
+
+        //    int count = 0;
+        //    int otherPlayers = PhotonNetwork.otherPlayers.Length;
+
+        //    if (otherPlayers != 0)
+        //    {
+        //        foreach (PhotonPlayer pp in PhotonNetwork.otherPlayers)
+        //        {
+        //            if ((PlayerState)pp.customProperties["PS"] == PlayerState.playstart)
+        //            {
+        //                count++;
+        //            }
+        //        }
+        //    }
+
+        //    if (count == otherPlayers)
+        //    {
+        //        //全員prepare終わったらゲーム開始直前処理
+        //        myPhotonView.RPC("GameStarting", PhotonTargets.All);
+        //    }
+
+        //}
 
 	}
 	
 	[RPC]
 	void GameStartPrepare(){
 
-        GameObject player = PhotonNetwork.Instantiate("ethanPrefab", blueStart.transform.position, Quaternion.identity, 0);
+        player = PhotonNetwork.Instantiate("ethanPrefab", blueStart.transform.position, Quaternion.identity, 0);
         player.GetComponent<PlayerController>().controllable = true;
 
 
@@ -64,19 +93,36 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
         camera.GetComponent<CameraControl>().player = player.transform;
         camera.SendMessage("SetPlayerCamera");
 
-        Debug.Log(PhotonNetwork.player.name + "がログインしました");
-
         HashTable h = new HashTable(){{"PS", PlayerState.play}};
         PhotonNetwork.player.SetCustomProperties(h);
 
         PhotonNetwork.room.open = true;
 
-        foreach(PhotonPlayer pp in PhotonNetwork.playerList)
-        {
-            Debug.Log(pp.name + " : " + (PlayerState)pp.customProperties["PS"]);
-        }
-
 	}
+
+    //[RPC]
+    //void GameStarting()
+    //{
+
+    //    player.GetComponent<PlayerController>().controllable = true;
+    //    player.GetComponent<Collider>().enabled = false;
+
+    //    GameObject[] statusObj = GameObject.FindGameObjectsWithTag("canAttackObject");
+    //    foreach (GameObject go in statusObj)
+    //    {
+    //        if (go.GetComponent<ObjectState>().team == player.GetComponent<ObjectState>().team)
+    //        {
+    //            go.GetComponent<Collider>().enabled = false;
+    //        }
+
+    //    }
+
+    //    HashTable h = new HashTable() { { "PS", PlayerState.play } };
+    //    PhotonNetwork.player.SetCustomProperties(h);
+
+    //    PhotonNetwork.room.open = true;
+
+    //}
 
     void GameEndRPC(string defeatBase)
     {
