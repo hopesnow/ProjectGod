@@ -34,8 +34,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	public GameObject startButton;//ownerのみOnにする
 
 
-
-
 	// Use this for initialization
 	void Start () {
 		PhotonNetwork.ConnectUsingSettings("0.1");
@@ -68,9 +66,22 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 		for (int i = 0; i < roomUI.Length; i++) {
 			roomUI[i].SetActive(false);
 		}
-		myRoom.SetActive (true);
+        myRoom.SetActive(true);
 		myRoom.SendMessage ("SetRoomInfo", PhotonNetwork.room);
 		myRoom.SendMessage ("OpenRoom");
+
+        if (myRoom.GetComponent<MyRoomInfo>().blueCount <= myRoom.GetComponent<MyRoomInfo>().redCount)
+        {
+            HashTable th = new HashTable() { { "TS", TEAM.BLUE } };
+            PhotonNetwork.player.SetCustomProperties(th);
+            myRoom.GetComponent<MyRoomInfo>().blueCount++;
+        }
+        else
+        {
+            HashTable th = new HashTable() { { "TS", TEAM.RED } };
+            PhotonNetwork.player.SetCustomProperties(th);
+            myRoom.GetComponent<MyRoomInfo>().redCount++;
+        }
 
 	}
 
