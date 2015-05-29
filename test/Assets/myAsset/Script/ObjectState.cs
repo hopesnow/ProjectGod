@@ -66,6 +66,17 @@ public class ObjectState : Photon.MonoBehaviour {
 
     }
 
+    void SendTeam()
+    {
+        myPhotonView.RPC("SetTeam", PhotonTargets.All, (int)team);
+    }
+
+    [RPC]
+    protected void SetTeam(int t)
+    {
+        team = (TEAM)t;
+    }
+
     [RPC]
     protected void Damage(int d)
     {

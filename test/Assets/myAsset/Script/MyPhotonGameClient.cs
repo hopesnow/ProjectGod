@@ -20,10 +20,6 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
 		myPhotonView = this.GetComponent<PhotonView> ();
 
-
-
-
-
 	}
 
 	// Update is called once per frame
@@ -97,6 +93,9 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
         PhotonNetwork.player.SetCustomProperties(h);
 
         PhotonNetwork.room.open = true;
+
+        player.GetComponent<ObjectState>().team = (TEAM)PhotonNetwork.player.customProperties["TS"];
+        player.GetComponent<ObjectState>().SendMessage("SendTeam");
 
 	}
 

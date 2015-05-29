@@ -63,25 +63,30 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 		HashTable h = new HashTable (){{"PS", PlayerState.room}};
 		PhotonNetwork.player.SetCustomProperties (h);
 
+        int blueNum = (int)PhotonNetwork.room.customProperties["BN"];
+        int redNum = (int)PhotonNetwork.room.customProperties["RN"];
+        if (blueNum <= redNum)
+        {
+            HashTable th = new HashTable() { { "TS", TEAM.BLUE } };
+            PhotonNetwork.player.SetCustomProperties(th);
+            HashTable rh = new HashTable() { { "BN", (blueNum + 1) } };
+            PhotonNetwork.room.SetCustomProperties(rh);
+        }
+        else
+        {
+            HashTable th = new HashTable() { { "TS", TEAM.RED } };
+            PhotonNetwork.player.SetCustomProperties(th);
+            HashTable rh = new HashTable() { { "RN", (redNum + 1) } };
+            PhotonNetwork.room.SetCustomProperties(rh);
+        }
+
 		for (int i = 0; i < roomUI.Length; i++) {
 			roomUI[i].SetActive(false);
 		}
         myRoom.SetActive(true);
 		myRoom.SendMessage ("SetRoomInfo", PhotonNetwork.room);
 		myRoom.SendMessage ("OpenRoom");
-
-        if (myRoom.GetComponent<MyRoomInfo>().blueCount <= myRoom.GetComponent<MyRoomInfo>().redCount)
-        {
-            HashTable th = new HashTable() { { "TS", TEAM.BLUE } };
-            PhotonNetwork.player.SetCustomProperties(th);
-            myRoom.GetComponent<MyRoomInfo>().blueCount++;
-        }
-        else
-        {
-            HashTable th = new HashTable() { { "TS", TEAM.RED } };
-            PhotonNetwork.player.SetCustomProperties(th);
-            myRoom.GetComponent<MyRoomInfo>().redCount++;
-        }
+        myPhotonView.RPC("RoomUpdate", PhotonTargets.Others);
 
 	}
 
@@ -119,11 +124,13 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
 	}
 
+    //誰かが自分のルームと同じところに入ってきたら
 	void OnPhotonPlayerConnected (){
-		myRoom.SendMessage ("SetPlayerName");
+        //myRoom.SendMessage ("SetPlayerName");
 
 	}
 
+    //誰かが自分のルームから出て行ったら
 	void OnPhotonPlayerDisconnected (){
 		myRoom.SendMessage ("SetPlayerName");
 
@@ -138,8 +145,8 @@ public class MyPhotonClient : Photon.MonoBehaviour {
         ro.isOpen = true;
         ro.isVisible = true;
         string[] s = { "RS" };
-        ro.customRoomPropertiesForLobby = s;
-        ro.customRoomProperties = new HashTable() { {"RS", RoomState.wait } };
+        ro.customRoomPropertiesForLobby = s;//lobbyで認識できるルームプロパティ。のはず
+        ro.customRoomProperties = new HashTable() { { "RS", RoomState.wait }, { "BN", 0 }, { "RN", 0 } };
 
         PhotonNetwork.CreateRoom(theRoomName.GetComponent<InputField>().text, ro, TypedLobby.Default);
 
@@ -167,6 +174,12 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 		}
 
 	}
+
+    [RPC]
+    void RoomUpdate()
+    {
+        myRoom.SendMessage("SetPlayerName");
+    }
 
 	[RPC]
 	void ToGameMain(PhotonMessageInfo info){

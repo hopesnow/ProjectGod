@@ -10,9 +10,6 @@ public class MyRoomInfo : MonoBehaviour {
 	public GameObject[] players;
 	public GameObject textPrefab;
 	public GameObject playerParent;
-    
-    public int blueCount = 0;
-    public int redCount = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -52,11 +49,9 @@ public class MyRoomInfo : MonoBehaviour {
 				break;
 			}
 
-            if ((TEAM)PhotonNetwork.playerList[i].customProperties["TS"] == null)
-            {
-                //nullがでるからここから直そう
-            }
-            else if ((TEAM)PhotonNetwork.playerList[i].customProperties["TS"] == TEAM.BLUE)
+            Debug.Log("TS"+ i + " : " + PhotonNetwork.playerList[i].customProperties["TS"]);
+            
+            if ((TEAM)PhotonNetwork.playerList[i].customProperties["TS"] == TEAM.BLUE)
             {
                 players[blueNum * 2].SetActive(true);
                 players[blueNum * 2].GetComponent<Text>().text = PhotonNetwork.playerList[i].name;
@@ -66,6 +61,7 @@ public class MyRoomInfo : MonoBehaviour {
             {
                 players[redNum * 2 + 1].SetActive(true);
                 players[redNum * 2 + 1].GetComponent<Text>().text = PhotonNetwork.playerList[i].name;
+                redNum++;
             }
 
             //players[i].SetActive(true);
@@ -73,13 +69,13 @@ public class MyRoomInfo : MonoBehaviour {
 
 		}
 
-		while(blueNum < 2){
+		while(blueNum < 3){
             players[blueNum * 2].SetActive(false);
             blueNum++;
 		}
-        while (redNum < 2)
+        while (redNum < 3)
         {
-            players[redNum * 2].SetActive(false);
+            players[redNum * 2 + 1].SetActive(false);
             redNum++;
         }
 

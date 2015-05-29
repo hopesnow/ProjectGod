@@ -62,6 +62,7 @@ public class CameraControl : MonoBehaviour {
                     target.transform.position = hit.collider.gameObject.transform.position + Vector3.Normalize(player.transform.position - hit.collider.gameObject.transform.position) * 0.5f;
                     tapPoint.transform.position = target.transform.position;
                     player.gameObject.SendMessage("MoveTo", target.transform);
+                    Debug.Log("pt:" + player.GetComponent<ObjectState>().team + " tt:" + hit.collider.gameObject.GetComponent<ObjectState>().team);
                     if (player.GetComponent<ObjectState>().team != hit.collider.gameObject.GetComponent<ObjectState>().team)
                     {
                         player.gameObject.GetComponent<PlayerController>().targetting = true;
