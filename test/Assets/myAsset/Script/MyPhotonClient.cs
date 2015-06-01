@@ -175,6 +175,42 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
 	}
 
+    public void JoinBlueTeam()
+    {
+        if ((TEAM)PhotonNetwork.player.customProperties["TS"] == TEAM.BLUE) return;
+        int blueNum = (int)PhotonNetwork.room.customProperties["BN"];
+        int redNum = (int)PhotonNetwork.room.customProperties["RN"];
+        if (blueNum < 3)
+        {
+            HashTable th = new HashTable() { { "TS", TEAM.BLUE } };
+            PhotonNetwork.player.SetCustomProperties(th);
+            HashTable bh = new HashTable() { { "BN", (blueNum + 1) } };
+            PhotonNetwork.room.SetCustomProperties(bh);
+            HashTable rh = new HashTable() { { "RN", (redNum - 1) } };
+            PhotonNetwork.room.SetCustomProperties(rh);
+            myPhotonView.RPC("RoomUpdate", PhotonTargets.All);
+        }
+
+    }
+
+    public void JoinRedTeam()
+    {
+        if ((TEAM)PhotonNetwork.player.customProperties["TS"] == TEAM.RED) return;
+        int blueNum = (int)PhotonNetwork.room.customProperties["BN"];
+        int redNum = (int)PhotonNetwork.room.customProperties["RN"];
+        if (redNum < 3)
+        {
+            HashTable th = new HashTable() { { "TS", TEAM.RED } };
+            PhotonNetwork.player.SetCustomProperties(th);
+            HashTable rh = new HashTable() { { "RN", (redNum + 1) } };
+            PhotonNetwork.room.SetCustomProperties(rh);
+            HashTable bh = new HashTable() { { "BN", (blueNum - 1) } };
+            PhotonNetwork.room.SetCustomProperties(bh);
+            myPhotonView.RPC("RoomUpdate", PhotonTargets.All);
+        }
+
+    }
+
     [RPC]
     void RoomUpdate()
     {
