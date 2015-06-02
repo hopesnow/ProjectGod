@@ -75,6 +75,10 @@ public class ObjectState : Photon.MonoBehaviour {
     protected void SetTeam(int t)
     {
         team = (TEAM)t;
+        if (GetComponent<PlayerController>() != null)
+        {
+            GetComponent<PlayerController>().SendMessage("SetCanvasTeam");
+        }
     }
 
     [RPC]

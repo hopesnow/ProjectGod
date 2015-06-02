@@ -48,8 +48,6 @@ public class MyRoomInfo : MonoBehaviour {
 				Debug.Log("Angry God");
 				break;
 			}
-
-            Debug.Log("TS"+ i + " : " + PhotonNetwork.playerList[i].customProperties["TS"]);
             
             if ((TEAM)PhotonNetwork.playerList[i].customProperties["TS"] == TEAM.BLUE)
             {

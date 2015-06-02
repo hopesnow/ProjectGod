@@ -81,7 +81,16 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 	[RPC]
 	void GameStartPrepare(){
 
-        player = PhotonNetwork.Instantiate("ethanPrefab", blueStart.transform.position, Quaternion.identity, 0);
+        Vector3 startPos;
+        if ((TEAM)PhotonNetwork.player.customProperties["TS"] == TEAM.BLUE)
+        {
+            startPos = blueStart.transform.position;
+        }
+        else
+        {
+            startPos = redStart.transform.position;
+        }
+        player = PhotonNetwork.Instantiate("ethanPrefab", startPos, Quaternion.identity, 0);
         player.GetComponent<PlayerController>().controllable = true;
 
 

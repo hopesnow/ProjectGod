@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class CanvasSetter : MonoBehaviour {
     public Transform target;
     public RectTransform copy;
     public bool health;
     float maxHealthWidth;
+    public Sprite bluePrefab;
+    public Sprite redPrefab;
+    public Sprite neutralPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -44,6 +48,27 @@ public class CanvasSetter : MonoBehaviour {
     void SetCopy(RectTransform t)
     {
         copy = t;
+    }
+
+    void SetTeamColor(int team)
+    {
+        switch ((TEAM)team)
+        {
+            case TEAM.BLUE:
+                GetComponent<Image>().sprite = bluePrefab;
+                
+                break;
+            case TEAM.RED:
+                GetComponent<Image>().sprite = redPrefab;
+                
+                break;
+            case TEAM.NEUTRAL:
+                GetComponent<Image>().sprite = neutralPrefab;
+
+                break;
+        }
+
+
     }
 
 }

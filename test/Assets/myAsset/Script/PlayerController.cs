@@ -165,6 +165,12 @@ public class PlayerController : MonoBehaviour {
 	
 	}
 
+    void SetCanvasTeam()
+    {
+        healthImage.SendMessage("SetTeamColor", (int)GetComponent<ObjectState>().team);
+
+    }
+
     //void SetHealthGauge(int number)
     //{
 

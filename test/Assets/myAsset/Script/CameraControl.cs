@@ -62,7 +62,7 @@ public class CameraControl : MonoBehaviour {
                     target.transform.position = hit.collider.gameObject.transform.position + Vector3.Normalize(player.transform.position - hit.collider.gameObject.transform.position) * 0.5f;
                     tapPoint.transform.position = target.transform.position;
                     player.gameObject.SendMessage("MoveTo", target.transform);
-                    Debug.Log("pt:" + player.GetComponent<ObjectState>().team + " tt:" + hit.collider.gameObject.GetComponent<ObjectState>().team);
+
                     if (player.GetComponent<ObjectState>().team != hit.collider.gameObject.GetComponent<ObjectState>().team)
                     {
                         player.gameObject.GetComponent<PlayerController>().targetting = true;
@@ -83,7 +83,7 @@ public class CameraControl : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit = new RaycastHit();
 		
-			if(Physics.Raycast(ray, out hit)){s
+			if(Physics.Raycast(ray, out hit)){
 		
 				if(hit.collider.gameObject.CompareTag("field")){
 
@@ -142,7 +142,7 @@ public class CameraControl : MonoBehaviour {
 		if (Input.GetKey(KeyCode.Space)) {
 			transform.position = Vector3.Lerp (transform.position, GetPlayerCamera(), Time.deltaTime * camSpeed);
 		} else {
-			
+
 		}
 #elif UNITY_ANDROID
         transform.position = Vector3.Lerp(transform.position, GetPlayerCamera(), Time.deltaTime * camSpeed);
