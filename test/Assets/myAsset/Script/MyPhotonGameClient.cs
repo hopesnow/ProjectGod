@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using HashTable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.UI;
 
 public class MyPhotonGameClient : Photon.MonoBehaviour {
 	private PhotonView myPhotonView;
@@ -10,6 +11,9 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
     public GameObject redStart;
 
     GameObject player;
+
+    public GameObject victory;
+    public GameObject defeat;
 
 	// Use this for initialization
 	void Awake () {
@@ -143,9 +147,32 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
     {
 
         GameObject.Find("Main Camera").SendMessage("EndGame", defeatBase);
-        GameObject.Find(defeatBase).transform.localScale = Vector3.zero;
+        //GameObject.Find(defeatBase).transform.localScale = Vector3.zero;
+        if (GameObject.Find(defeatBase).GetComponent<ObjectState>().team != (TEAM)PhotonNetwork.player.customProperties["TS"])
+        {//victory
+            Invoke("Victory", 2.0f);
+        }
+        else //defeat
+        {
+            Invoke("Defeat", 2.0f);
+        }
 
     }
 
+    void Victory()
+    {
+
+        victory.SetActive(true);
+        victory.GetComponent<Image>().color = new Color(255, 255, 255, 255);
+
+    }
+
+    void Defeat()
+    {
+
+        defeat.SetActive(true);
+        defeat.GetComponent<Image>().color = new Color(255, 255, 255, 255);
+
+    }
 
 }

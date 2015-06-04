@@ -58,4 +58,18 @@ public class HeroState : ObjectState
         max_mana = m;
     }
 
+    protected override void DeadEvent()
+    {
+
+        GetComponent<PlayerController>().SendMessage("RespawnPrepare");
+
+    }
+
+    public void Respawn()
+    {
+        health = max_health;
+        mana = max_mana;
+
+    }
+
 }

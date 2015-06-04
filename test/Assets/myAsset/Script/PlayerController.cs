@@ -171,9 +171,55 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    //void SetHealthGauge(int number)
-    //{
+    //死んだ直後
+    void RespawnPrepare()
+    {
+        
+        controllable = false;
 
-    //}
+        //respawn位置
+        switch (GetComponent<ObjectState>().team)
+        {
+            case TEAM.BLUE:
+                agent.Warp(GameObject.Find("bluePoint").transform.position);
+
+                break;
+            case TEAM.RED:
+                agent.Warp(GameObject.Find("redPoint").transform.position);
+
+                break;
+        }
+
+        foreach (SkinnedMeshRenderer ren in this.GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            ren.enabled = false;
+        }
+        healthImage.SetActive(false);
+        gaugeImage.SetActive(false);
+
+        Invoke("RespawnInit", 10.0f);
+
+    }
+
+    //生き返る直前
+    void RespawnInit()
+    {
+
+        
+        controllable = true;
+
+        //health関係
+        GetComponent<HeroState>().Respawn();
+
+        //再表示
+        foreach (SkinnedMeshRenderer ren in this.GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            ren.enabled = true;
+        }
+        healthImage.SetActive(true);
+        gaugeImage.SetActive(true);
+
+    }
+    
 
 }
