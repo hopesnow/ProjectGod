@@ -3,3 +3,5 @@
 minion waveを作る
 
 視界をわかりやすく表現する（SpotLightなどで）
+
+リスポーンを作る
