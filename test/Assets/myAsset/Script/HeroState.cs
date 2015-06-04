@@ -62,6 +62,7 @@ public class HeroState : ObjectState
     {
 
         GetComponent<PlayerController>().SendMessage("RespawnPrepare");
+        GameObject.Find("Main Camera").SendMessage("CheckDeadPlayer", this.gameObject);
 
     }
 

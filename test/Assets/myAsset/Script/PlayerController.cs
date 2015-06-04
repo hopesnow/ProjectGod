@@ -174,8 +174,6 @@ public class PlayerController : MonoBehaviour {
     //死んだ直後
     void RespawnPrepare()
     {
-        
-        controllable = false;
 
         //respawn位置
         switch (GetComponent<ObjectState>().team)
@@ -205,9 +203,6 @@ public class PlayerController : MonoBehaviour {
     void RespawnInit()
     {
 
-        
-        controllable = true;
-
         //health関係
         GetComponent<HeroState>().Respawn();
 
@@ -218,6 +213,8 @@ public class PlayerController : MonoBehaviour {
         }
         healthImage.SetActive(true);
         gaugeImage.SetActive(true);
+
+        GameObject.Find("Main Camera").SendMessage("CheckRespawnPlayer", this.gameObject);
 
     }
     

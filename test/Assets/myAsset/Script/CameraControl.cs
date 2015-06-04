@@ -175,4 +175,24 @@ public class CameraControl : MonoBehaviour {
 
     }
 
+
+    void CheckDeadPlayer(GameObject deadPlayer)
+    {
+        if (deadPlayer == player.gameObject)
+        {
+            player.GetComponent<PlayerController>().controllable = false;
+        }
+
+    }
+
+    //生き返ったのが自身のプレイヤーか？
+    void CheckRespawnPlayer(GameObject respawnPlayer)
+    {
+        if (respawnPlayer == player.gameObject)
+        {
+            player.GetComponent<PlayerController>().controllable = true;
+        }
+
+    }
+
 }
