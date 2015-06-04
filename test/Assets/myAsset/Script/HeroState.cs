@@ -31,8 +31,10 @@ public class HeroState : ObjectState
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+
 
     }
 
@@ -54,6 +56,20 @@ public class HeroState : ObjectState
     void SetMaxMana(int m)
     {
         max_mana = m;
+    }
+
+    protected override void DeadEvent()
+    {
+
+        GetComponent<PlayerController>().SendMessage("RespawnPrepare");
+
+    }
+
+    public void Respawn()
+    {
+        health = max_health;
+        mana = max_mana;
+
     }
 
 }

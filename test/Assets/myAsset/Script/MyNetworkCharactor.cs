@@ -26,7 +26,6 @@ public class MyNetworkCharactor : Photon.MonoBehaviour {
             //myThirdPersonController myC = GetComponent<myThirdPersonController>();
             //stream.SendNext((int)myC._characterState);
             stream.SendNext((int)GetComponent<PlayerController>().animState);
-            stream.SendNext(GetComponent<ObjectState>().HEALTH);
         }
         else
         {
@@ -38,7 +37,6 @@ public class MyNetworkCharactor : Photon.MonoBehaviour {
             //myThirdPersonController myC = GetComponent<myThirdPersonController>();
             //myC._characterState = (CharacterState)stream.ReceiveNext();
             GetComponent<PlayerController>().animState = (CharacterAnimState)stream.ReceiveNext();
-            GetComponent<ObjectState>().HEALTH = (int)stream.ReceiveNext();
         }
 
     }

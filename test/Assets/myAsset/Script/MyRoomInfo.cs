@@ -10,14 +10,9 @@ public class MyRoomInfo : MonoBehaviour {
 	public GameObject[] players;
 	public GameObject textPrefab;
 	public GameObject playerParent;
-    //int blueCount;
-    //int redCount;
 
 	// Use this for initialization
 	void Start () {
-        //redCount = 0;
-        //blueCount = 0;
-
 		
 	}
 	
@@ -44,21 +39,43 @@ public class MyRoomInfo : MonoBehaviour {
 	}
 
 	void SetPlayerName(){
+
+        int blueNum = 0;
+        int redNum = 0;
 		for (int i = 0; i < PhotonNetwork.playerList.Length; i++) {
-			//first aid
+
 			if(i >= 6){
 				Debug.Log("Angry God");
 				break;
 			}
-			players[i].SetActive(true);
-			players[i].GetComponent<Text>().text = PhotonNetwork.playerList[i].name;
+            
+            if ((TEAM)PhotonNetwork.playerList[i].customProperties["TS"] == TEAM.BLUE)
+            {
+                players[blueNum * 2].SetActive(true);
+                players[blueNum * 2].GetComponent<Text>().text = PhotonNetwork.playerList[i].name;
+                blueNum++;
+            }
+            else if ((TEAM)PhotonNetwork.playerList[i].customProperties["TS"] == TEAM.RED)
+            {
+                players[redNum * 2 + 1].SetActive(true);
+                players[redNum * 2 + 1].GetComponent<Text>().text = PhotonNetwork.playerList[i].name;
+                redNum++;
+            }
+
+            //players[i].SetActive(true);
+            //players[i].GetComponent<Text>().text = PhotonNetwork.playerList[i].name;
 
 		}
 
-		for(int i = PhotonNetwork.playerList.Length;i < 6;i++){
-			players[i].SetActive(false);
-
+		while(blueNum < 3){
+            players[blueNum * 2].SetActive(false);
+            blueNum++;
 		}
+        while (redNum < 3)
+        {
+            players[redNum * 2 + 1].SetActive(false);
+            redNum++;
+        }
 
 
 	}

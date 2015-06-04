@@ -1,13 +1,5 @@
-PlayerController.csのrotationを自分で変更するようにするか
+ベースの破壊アニメーション
 
-Motionなにが最低限いるか
-	idle
-	run
-	walk
-	attack
-	skill1
-	skill2
-	skill3
-	dead
-	fun(お楽しみモーション？)
+minion waveを作る
 
+視界をわかりやすく表現する（SpotLightなどで）
