@@ -15,16 +15,27 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
     public GameObject victory;
     public GameObject defeat;
 
+    public GameObject blueTopMinion;
+    public GameObject blueBottomMinion;
+    public GameObject redTopMinion;
+    public GameObject redBottomMinion;
+
+    float startTime;
+    float nextMinion;
+
 	// Use this for initialization
-	void Awake () {
-		PhotonNetwork.isMessageQueueRunning = true;
+    void Awake()
+    {
+        PhotonNetwork.isMessageQueueRunning = true;
 
-		HashTable h = new HashTable (){{"PS", PlayerState.init}};
-		PhotonNetwork.player.SetCustomProperties (h);
+        HashTable h = new HashTable() { { "PS", PlayerState.init } };
+        PhotonNetwork.player.SetCustomProperties(h);
 
-		myPhotonView = this.GetComponent<PhotonView> ();
+        myPhotonView = this.GetComponent<PhotonView>();
 
-	}
+        nextMinion = 30;
+
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -80,10 +91,22 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
         //}
 
+        if (PhotonNetwork.player.isMasterClient)
+        {
+            if ((Time.time - startTime) > nextMinion)
+            {
+                nextMinion += 60;
+                //minionPop
+            }
+
+        }
+
 	}
 	
 	[RPC]
 	void GameStartPrepare(){
+
+        startTime = Time.time;
 
         Vector3 startPos;
         if ((TEAM)PhotonNetwork.player.customProperties["TS"] == TEAM.BLUE)
@@ -172,6 +195,30 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
         defeat.SetActive(true);
         defeat.GetComponent<Image>().color = new Color(255, 255, 255, 255);
+
+    }
+
+    [RPC]
+    void BlueTopMinionPop()
+    {
+
+    }
+
+    [RPC]
+    void BlueBottomMinionPop()
+    {
+
+    }
+
+    [RPC]
+    void RedTopMinionPop()
+    {
+
+    }
+
+    [RPC]
+    void RedBottomMinionPop()
+    {
 
     }
 

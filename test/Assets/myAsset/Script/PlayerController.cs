@@ -16,8 +16,6 @@ public class PlayerController : MonoBehaviour {
 	NavMeshAgent agent;
 	Transform target;
 	Animator anim;
-	public float moveSpeed;
-	public float turnSpeed;
 
 	public GameObject healthImage;
     public GameObject gaugeImage;
@@ -63,9 +61,6 @@ public class PlayerController : MonoBehaviour {
 
         anim = GetComponentInChildren<Animator>();
         animState = CharacterAnimState.idle;
-
-		moveSpeed = 3.0f;
-		turnSpeed = 5.0f;
 
 	}
 	
