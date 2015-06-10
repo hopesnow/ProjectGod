@@ -15,10 +15,10 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
     public GameObject victory;
     public GameObject defeat;
 
-    public GameObject blueTopMinion;
-    public GameObject blueBottomMinion;
-    public GameObject redTopMinion;
-    public GameObject redBottomMinion;
+    public GameObject blueTopGate;
+    public GameObject blueBottomGate;
+    public GameObject redTopGate;
+    public GameObject redBottomGate;
 
     float startTime;
     float nextMinion;
@@ -33,12 +33,13 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
         myPhotonView = this.GetComponent<PhotonView>();
 
-        nextMinion = 30;
+        nextMinion = 10;
 
     }
 
 	// Update is called once per frame
 	void Update () {
+
 
         if (PhotonNetwork.player.isMasterClient && (PlayerState)PhotonNetwork.player.customProperties["PS"] == PlayerState.init)
         {
@@ -91,12 +92,24 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
         //}
 
-        if (PhotonNetwork.player.isMasterClient)
+        if (PhotonNetwork.player.isMasterClient && (PlayerState)PhotonNetwork.player.customProperties["PS"] == PlayerState.play)
         {
             if ((Time.time - startTime) > nextMinion)
             {
                 nextMinion += 60;
                 //minionPop
+                for (int i = 0; i < 4; i++)
+                {
+                    if (i < 3)
+                    {
+                        Invoke("MeleeMinionCreate", 1.0f * i);
+                    }
+                    else
+                    {
+                        Invoke("RangeMinionCreate", 1.0f * i);
+                    }
+                }
+
             }
 
         }
@@ -132,6 +145,7 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
         player.GetComponent<ObjectState>().team = (TEAM)PhotonNetwork.player.customProperties["TS"];
         player.GetComponent<ObjectState>().SendMessage("SendTeam");
+
 
 	}
 
@@ -198,27 +212,66 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
     }
 
-    [RPC]
-    void BlueTopMinionPop()
+    void MeleeMinionCreate()
     {
+        BlueTopMinionPop(PhotonNetwork.Instantiate("Goblin_Sword", blueTopGate.transform.position, Quaternion.identity, 0));
+        BlueBottomMinionPop(PhotonNetwork.Instantiate("Goblin_Sword", blueBottomGate.transform.position, Quaternion.identity, 0));
+        RedTopMinionPop(PhotonNetwork.Instantiate("Goblin_Sword", redTopGate.transform.position, Quaternion.identity, 0));
+        RedBottomMinionPop(PhotonNetwork.Instantiate("Goblin_Sword", redBottomGate.transform.position, Quaternion.identity, 0));
 
     }
 
-    [RPC]
-    void BlueBottomMinionPop()
+    void RangeMinionCreate()
     {
+        BlueTopMinionPop(PhotonNetwork.Instantiate("Goblin_Bow", blueTopGate.transform.position, Quaternion.identity, 0));
+        BlueBottomMinionPop(PhotonNetwork.Instantiate("Goblin_Bow", blueBottomGate.transform.position, Quaternion.identity, 0));
+        RedTopMinionPop(PhotonNetwork.Instantiate("Goblin_Bow", redTopGate.transform.position, Quaternion.identity, 0));
+        RedBottomMinionPop(PhotonNetwork.Instantiate("Goblin_Bow", redBottomGate.transform.position, Quaternion.identity, 0));
 
     }
 
-    [RPC]
-    void RedTopMinionPop()
+    
+    void BlueTopMinionPop(GameObject minion)
     {
+        MinionAI ai = minion.GetComponent<MinionAI>();
+        ai.MasterAI = true;
+        ai.SendMessage("SetTeam", TEAM.BLUE);
+        ai.SendMessage("SetLane", LANE.top);
+        minion.GetComponent<MinionState>().team = TEAM.BLUE;
+        
 
     }
 
-    [RPC]
-    void RedBottomMinionPop()
+
+    void BlueBottomMinionPop(GameObject minion)
     {
+        MinionAI ai = minion.GetComponent<MinionAI>();
+        ai.MasterAI = true;
+        ai.SendMessage("SetTeam", TEAM.BLUE);
+        ai.SendMessage("SetLane", LANE.bottom);
+        minion.GetComponent<MinionState>().team = TEAM.BLUE;
+
+    }
+
+
+    void RedTopMinionPop(GameObject minion)
+    {
+        MinionAI ai = minion.GetComponent<MinionAI>();
+        ai.MasterAI = true;
+        ai.SendMessage("SetTeam", TEAM.RED);
+        ai.SendMessage("SetLane", LANE.top);
+        minion.GetComponent<MinionState>().team = TEAM.RED;
+
+    }
+
+
+    void RedBottomMinionPop(GameObject minion)
+    {
+        MinionAI ai = minion.GetComponent<MinionAI>();
+        ai.MasterAI = true;
+        ai.SendMessage("SetTeam", TEAM.RED);
+        ai.SendMessage("SetLane", LANE.bottom);
+        minion.GetComponent<MinionState>().team = TEAM.RED;
 
     }
 
