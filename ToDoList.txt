@@ -1,7 +1,11 @@
 ベースの破壊アニメーション
 
 minion waveを作る
+	phaseを移行する
+	minionのヘルス
+	
 
 視界をわかりやすく表現する（SpotLightなどで）
+	shaderつかう？
 
 リスポーンを作る

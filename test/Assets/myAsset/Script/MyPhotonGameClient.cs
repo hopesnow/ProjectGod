@@ -235,8 +235,8 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
     {
         MinionAI ai = minion.GetComponent<MinionAI>();
         ai.MasterAI = true;
-        ai.SendMessage("SetTeam", TEAM.BLUE);
-        ai.SendMessage("SetLane", LANE.top);
+        ai.team = TEAM.BLUE;
+        ai.lane = LANE.top;
         minion.GetComponent<MinionState>().team = TEAM.BLUE;
         
 
@@ -247,8 +247,8 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
     {
         MinionAI ai = minion.GetComponent<MinionAI>();
         ai.MasterAI = true;
-        ai.SendMessage("SetTeam", TEAM.BLUE);
-        ai.SendMessage("SetLane", LANE.bottom);
+        ai.team = TEAM.BLUE;
+        ai.lane = LANE.bottom;
         minion.GetComponent<MinionState>().team = TEAM.BLUE;
 
     }
@@ -258,8 +258,8 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
     {
         MinionAI ai = minion.GetComponent<MinionAI>();
         ai.MasterAI = true;
-        ai.SendMessage("SetTeam", TEAM.RED);
-        ai.SendMessage("SetLane", LANE.top);
+        ai.team = TEAM.RED;
+        ai.lane = LANE.top;
         minion.GetComponent<MinionState>().team = TEAM.RED;
 
     }
@@ -269,8 +269,8 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
     {
         MinionAI ai = minion.GetComponent<MinionAI>();
         ai.MasterAI = true;
-        ai.SendMessage("SetTeam", TEAM.RED);
-        ai.SendMessage("SetLane", LANE.bottom);
+        ai.team = TEAM.RED;
+        ai.lane = LANE.bottom;
         minion.GetComponent<MinionState>().team = TEAM.RED;
 
     }
