@@ -7,8 +7,8 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 	private PhotonView myPhotonView;
 
 
-    public GameObject blueStart;
-    public GameObject redStart;
+    GameObject blueStart;
+    GameObject redStart;
 
     GameObject player;
 
@@ -19,6 +19,9 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
     public GameObject blueBottomGate;
     public GameObject redTopGate;
     public GameObject redBottomGate;
+
+    public GameObject gaugePrefab;
+    public GameObject healthPrefab;
 
     float startTime;
     float nextMinion;
@@ -35,6 +38,8 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
         nextMinion = 10;
 
+        blueStart = GameObject.Find("bluePoint");
+        redStart = GameObject.Find("redPoint");
     }
 
 	// Update is called once per frame

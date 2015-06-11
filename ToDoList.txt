@@ -2,7 +2,8 @@
 
 minion waveを作る
 	phaseを移行する
-	minionのヘルス
+	近くに来た敵を攻撃
+	ヘルスの色をチームに合わせる
 	
 
 視界をわかりやすく表現する（SpotLightなどで）
