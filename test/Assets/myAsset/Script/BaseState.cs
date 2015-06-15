@@ -7,6 +7,9 @@ public class BaseState : ObjectState {
     {
         base.Awake();
 
+        health = 250;
+        max_health = health;
+
         width = transform.localScale.x / 2;
     }
 

@@ -183,7 +183,10 @@
      <Compile Include="Assets\myAsset\Script\MyRoomInfo.cs" />
      <Compile Include="Assets\myAsset\Script\ObjectState.cs" />
      <Compile Include="Assets\myAsset\Script\PlayerController.cs" />
+     <Compile Include="Assets\myAsset\Script\PrefabGetter.cs" />
      <Compile Include="Assets\myAsset\Script\TouchControl.cs" />
+     <Compile Include="Assets\myAsset\Script\TowerAI.cs" />
+     <Compile Include="Assets\myAsset\Script\TowerState.cs" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_fuku.shader" />
      <None Include="Assets\Plugins\Photon3Unity3D.xml" />

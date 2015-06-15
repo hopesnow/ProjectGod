@@ -62,6 +62,7 @@ public class ObjectState : Photon.MonoBehaviour {
     protected void DamageAttack(int d)
     {
         int damage = (d - protect);
+        if (damage < 1) damage = 1;
         myPhotonView.RPC("Damage", PhotonTargets.All, damage);
 
     }

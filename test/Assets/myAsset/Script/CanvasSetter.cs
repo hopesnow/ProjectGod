@@ -10,10 +10,17 @@ public class CanvasSetter : MonoBehaviour {
     public Sprite bluePrefab;
     public Sprite redPrefab;
     public Sprite neutralPrefab;
+    PrefabGetter prefab;
 
 	// Use this for initialization
 	void Start () {
         maxHealthWidth = GetComponent<RectTransform>().rect.width;
+
+        prefab = GameObject.Find("Prefabs").GetComponent<PrefabGetter>();
+        bluePrefab = prefab.blueHealthImage;
+        redPrefab = prefab.redHealthImage;
+        neutralPrefab = prefab.shieldImage;
+
 	}
 	
 	// Update is called once per frame
