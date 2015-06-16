@@ -36,7 +36,7 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
         myPhotonView = this.GetComponent<PhotonView>();
 
-        nextMinion = 20;
+        nextMinion = 5;
 
         blueStart = GameObject.Find("bluePoint");
         redStart = GameObject.Find("redPoint");
@@ -101,7 +101,7 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
         {
             if ((Time.time - startTime) > nextMinion)
             {
-                nextMinion += 50;
+                nextMinion += 30;
                 //minionPop
                 for (int i = 0; i < 4; i++)
                 {

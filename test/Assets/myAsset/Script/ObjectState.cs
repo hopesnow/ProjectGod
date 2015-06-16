@@ -48,6 +48,11 @@ public class ObjectState : Photon.MonoBehaviour {
     public float RANGE { get { return range; } }
     public float WIDTH { get { return width; } }
     public float ATTACK { get { return attack; } }
+    /// <summary>
+    /// attack_speed
+    /// </summary>
+    public int AS { get { return attack_speed; } }
+    public float NEXT_ATTACK { get { return 100 / AS; } }
 
     public float HEALTH_RATE
     {
