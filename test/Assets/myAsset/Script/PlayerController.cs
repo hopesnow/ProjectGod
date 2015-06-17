@@ -11,6 +11,15 @@ public enum CharacterAnimState
     skill3,
 }
 
+public enum CHARA_ACT
+{
+    idle, 
+    autoAttack,
+    targetting,
+    freeWalk,
+
+}
+
 public class PlayerController : MonoBehaviour {
 
 	NavMeshAgent agent;
@@ -25,6 +34,9 @@ public class PlayerController : MonoBehaviour {
     public Transform targettingObj = null;
 
     public CharacterAnimState animState;
+
+    CHARA_ACT act;
+    float attackDelay;
 
 	// Use this for initialization
 	void Awake () {
@@ -62,6 +74,9 @@ public class PlayerController : MonoBehaviour {
         anim = GetComponentInChildren<Animator>();
         animState = CharacterAnimState.idle;
 
+        act = CHARA_ACT.idle;
+        attackDelay = 0;
+
 	}
 	
 	// Update is called once per frame
@@ -69,6 +84,24 @@ public class PlayerController : MonoBehaviour {
 
         if (controllable)
         {
+
+
+            //switch (act)
+            //{
+            //    case CHARA_ACT.idle:
+
+            //        break;
+            //    case CHARA_ACT.freeWalk:
+
+            //        break;
+            //    case CHARA_ACT.targetting:
+
+            //        break;
+            //    case CHARA_ACT.autoAttack:
+
+            //        break;
+            //}
+
 
             if (target != null)
             {

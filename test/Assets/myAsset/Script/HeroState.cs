@@ -11,6 +11,13 @@ public class HeroState : ObjectState
     {
 
         base.Awake();
+
+        health = 150;
+        max_health = 150;
+
+        attack = 20;
+        protect = 8;
+
         mana = 100;
         max_mana = 100;
         magic = 0;
