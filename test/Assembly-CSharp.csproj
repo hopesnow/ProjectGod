@@ -178,6 +178,7 @@
      <Compile Include="Assets\myAsset\Script\MinionState.cs" />
      <Compile Include="Assets\myAsset\Script\MyNetworkCharactor.cs" />
      <Compile Include="Assets\myAsset\Script\MyNetworkMinion.cs" />
+     <Compile Include="Assets\myAsset\Script\MyNetworkObject.cs" />
      <Compile Include="Assets\myAsset\Script\MyPhotonClient.cs" />
      <Compile Include="Assets\myAsset\Script\MyPhotonGameClient.cs" />
      <Compile Include="Assets\myAsset\Script\MyRoomInfo.cs" />
@@ -186,6 +187,7 @@
      <Compile Include="Assets\myAsset\Script\PrefabGetter.cs" />
      <Compile Include="Assets\myAsset\Script\TouchControl.cs" />
      <Compile Include="Assets\myAsset\Script\TowerAI.cs" />
+     <Compile Include="Assets\myAsset\Script\TowerAttaker.cs" />
      <Compile Include="Assets\myAsset\Script\TowerState.cs" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_fuku.shader" />
