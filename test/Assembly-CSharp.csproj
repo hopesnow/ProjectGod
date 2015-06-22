@@ -171,7 +171,6 @@
      <Compile Include="Assets\myAsset\Script\CanvasSetter.cs" />
      <Compile Include="Assets\myAsset\Script\Character01.cs" />
      <Compile Include="Assets\myAsset\Script\CharacterSkill.cs" />
-     <Compile Include="Assets\myAsset\Script\GameManager.cs" />
      <Compile Include="Assets\myAsset\Script\HeroState.cs" />
      <Compile Include="Assets\myAsset\Script\LobbyButton.cs" />
      <Compile Include="Assets\myAsset\Script\MinionAI.cs" />
@@ -189,6 +188,7 @@
      <Compile Include="Assets\myAsset\Script\TowerAI.cs" />
      <Compile Include="Assets\myAsset\Script\TowerAttaker.cs" />
      <Compile Include="Assets\myAsset\Script\TowerState.cs" />
+     <Compile Include="Assets\stage\Campfire Pack\Script\SwitchView.cs" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_fuku.shader" />
      <None Include="Assets\Plugins\Photon3Unity3D.xml" />

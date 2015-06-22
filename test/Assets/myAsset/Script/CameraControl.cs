@@ -52,22 +52,29 @@ public class CameraControl : MonoBehaviour {
                     GameObject target = new GameObject("target");
                     target.transform.position = hit.point;
                     tapPoint.transform.position = hit.point;
-                    player.gameObject.SendMessage("MoveTo", target.transform);
+                    tapPoint.GetComponent<ParticleSystem>().Play();
                     player.gameObject.GetComponent<PlayerController>().targetting = false;
+                    player.gameObject.SendMessage("MoveTo", target.transform);
 
                 }
                 else if(hit.collider.gameObject.CompareTag("canAttackObject"))
                 {
-                    GameObject target = new GameObject("target");
-                    target.transform.position = hit.collider.gameObject.transform.position + Vector3.Normalize(player.transform.position - hit.collider.gameObject.transform.position) * 0.5f;
-                    tapPoint.transform.position = target.transform.position;
-                    player.gameObject.SendMessage("MoveTo", target.transform);
-
+                    
                     if (player.GetComponent<ObjectState>().team != hit.collider.gameObject.GetComponent<ObjectState>().team)
                     {
-                        player.gameObject.GetComponent<PlayerController>().targetting = true;
-                        player.gameObject.GetComponent<PlayerController>().targettingObj = hit.collider.gameObject.transform;
+                        player.gameObject.GetComponent<PlayerController>().SetTargetFromObj(hit.collider.gameObject);
+                        tapPoint.transform.position = hit.collider.gameObject.transform.position + Vector3.Normalize(player.transform.position - hit.collider.gameObject.transform.position) * 0.5f;
+                        tapPoint.GetComponent<ParticleSystem>().Play();
                     }
+                    else
+                    {
+                        GameObject target = new GameObject("target");
+                        target.transform.position = hit.collider.gameObject.transform.position + Vector3.Normalize(player.transform.position - hit.collider.gameObject.transform.position) * 0.5f;
+                        tapPoint.transform.position = target.transform.position;
+                        tapPoint.GetComponent<ParticleSystem>().Play();
+                        player.gameObject.GetComponent<PlayerController>().SetTargetFromObj();
+                    }
+                    
 
                 }
 		

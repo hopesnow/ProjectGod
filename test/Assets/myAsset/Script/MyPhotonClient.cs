@@ -221,7 +221,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	void ToGameMain(PhotonMessageInfo info){
         PhotonNetwork.isMessageQueueRunning = false;
 
-		Application.LoadLevel ("GameMain");
+		Application.LoadLevel ("stage");
 
 	}
 
