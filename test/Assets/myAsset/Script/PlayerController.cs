@@ -462,11 +462,11 @@ public class PlayerController : MonoBehaviour {
         switch (GetComponent<ObjectState>().team)
         {
             case TEAM.BLUE:
-                agent.Warp(GameObject.Find("bluePoint").transform.position);
+                agent.Warp(GameObject.Find("blue_base").transform.position);
 
                 break;
             case TEAM.RED:
-                agent.Warp(GameObject.Find("redPoint").transform.position);
+                agent.Warp(GameObject.Find("red_base").transform.position);
 
                 break;
         }

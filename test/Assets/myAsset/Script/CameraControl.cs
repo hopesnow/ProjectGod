@@ -19,7 +19,7 @@ public class CameraControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		dist = 10;
+		dist = 15;
 		camSpeed = 15.0f;
 
 		movePos = new Vector3 ();
