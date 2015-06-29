@@ -31,7 +31,7 @@ public class TowerAttaker : MonoBehaviour {
         if (!master) return;
         if (target == null)
         {
-            Destroy(gameObject);
+            GetComponent<PhotonView>().RPC("attacked", PhotonTargets.All);
             master = false;
         }
 
@@ -41,7 +41,7 @@ public class TowerAttaker : MonoBehaviour {
         {
             //攻撃成功
             target.SendMessage("DamageAttack", attack);
-            Destroy(gameObject);
+            GetComponent<PhotonView>().RPC("attacked", PhotonTargets.All);
             master = false;
         }
 	
@@ -54,6 +54,12 @@ public class TowerAttaker : MonoBehaviour {
 
         targetOffset = new Vector3(0, target.GetComponent<CapsuleCollider>().height / 2, 0);
 
+    }
+
+    [RPC]
+    void attacked()
+    {
+        Destroy(gameObject);
     }
 
 

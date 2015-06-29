@@ -196,6 +196,7 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
         {
             Invoke("Defeat", 2.0f);
         }
+        nextMinion = float.MaxValue;
 
     }
 

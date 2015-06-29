@@ -458,6 +458,10 @@ public class PlayerController : MonoBehaviour {
     void RespawnPrepare()
     {
 
+        act = CHARA_ACT.idle;
+        StopMove();
+        animState = CharacterAnimState.idle;
+
         //respawn位置
         switch (GetComponent<ObjectState>().team)
         {
