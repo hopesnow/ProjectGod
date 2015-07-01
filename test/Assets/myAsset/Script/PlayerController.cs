@@ -39,6 +39,9 @@ public class PlayerController : MonoBehaviour {
     public CHARA_ACT act;
     float attackDelay;
 
+    bool dying;
+    public bool DYING { get { return dying; } }
+
 	// Use this for initialization
 	void Awake () {
 	
@@ -78,6 +81,11 @@ public class PlayerController : MonoBehaviour {
         act = CHARA_ACT.idle;
         attackDelay = 0;
 
+        targetting = false;
+        targettingObj = null;
+
+        dying = false;
+
 	}
 	
 	// Update is called once per frame
@@ -113,8 +121,37 @@ public class PlayerController : MonoBehaviour {
                     break;
                 case CHARA_ACT.targetting:
 
+                    //targetが死んだら
+                    if (!targettingObj)
+                    {
+
+                        targetting = false;
+                        targettingObj = null;
+                        foreach (GameObject go in GameObject.FindGameObjectsWithTag("canAttackObject"))
+                        {
+                            if (go.GetComponent<ObjectState>().team == GetComponent<ObjectState>().team) continue;
+                            if (Vector3.Distance(GetVecXZ(transform.position), GetVecXZ(go.transform.position)) <= GetComponent<ObjectState>().RANGE + go.GetComponent<ObjectState>().WIDTH)
+                            {
+                                SetTargetFromObj(go);
+                                break;
+                            }
+
+                        }
+
+                        if (targettingObj == null)
+                        {
+                            act = CHARA_ACT.idle;
+                            StopMove();
+                        }
+
+                    }
+                    else
+                    {
+                        MoveToTarget();
+                    }
+
                     //攻撃可能範囲に入った場合
-                    if(Vector3.Distance(GetVecXZ(transform.position), GetVecXZ(target.position)) < gameObject.GetComponent<ObjectState>().RANGE + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH){
+                    if(Vector3.Distance(GetVecXZ(transform.position), GetVecXZ(targettingObj.position)) < gameObject.GetComponent<ObjectState>().RANGE + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH){
                         StopMove();
                         act = CHARA_ACT.autoAttack;
                         break;
@@ -123,29 +160,46 @@ public class PlayerController : MonoBehaviour {
                     anim.SetFloat("speed", agent.velocity.magnitude);
                     animState = CharacterAnimState.walk;
 
-                    break;
-                case CHARA_ACT.autoAttack:
-
-                    if (attackDelay <= 0)
+                    //targetが死んだら
+                    if (!targettingObj)
                     {
-                        transform.LookAt(targettingObj);
-                        anim.SetTrigger("attack");
-                        animState = CharacterAnimState.attack;
-                        targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
-                        attackDelay = GetComponent<ObjectState>().NEXT_ATTACK;
+
+                        targetting = false;
+                        targettingObj = null;
+                        foreach (GameObject go in GameObject.FindGameObjectsWithTag("canAttackObject"))
+                        {
+                            if (go.GetComponent<ObjectState>().team == GetComponent<ObjectState>().team) continue;
+                            if (Vector3.Distance(GetVecXZ(transform.position), GetVecXZ(go.transform.position)) <= GetComponent<ObjectState>().RANGE + go.GetComponent<ObjectState>().WIDTH)
+                            {
+                                SetTargetFromObj(go);
+                                break;
+                            }
+
+                        }
+
+                        if (targettingObj == null)
+                        {
+                            act = CHARA_ACT.idle;
+                            StopMove();
+                        }
+
                     }
                     else
                     {
-                        animState = CharacterAnimState.idle;
+                        MoveToTarget();
                     }
+
+                    break;
+                case CHARA_ACT.autoAttack:
 
                     //targetが死んだら
                     if (!targettingObj)
                     {
-                        
+
                         targetting = false;
                         targettingObj = null;
-                        foreach(GameObject go in GameObject.FindGameObjectsWithTag("canAttackObject")){
+                        foreach (GameObject go in GameObject.FindGameObjectsWithTag("canAttackObject"))
+                        {
                             if (go.GetComponent<ObjectState>().team == GetComponent<ObjectState>().team) continue;
                             if (Vector3.Distance(GetVecXZ(transform.position), GetVecXZ(go.transform.position)) <= GetComponent<ObjectState>().RANGE + go.GetComponent<ObjectState>().WIDTH)
                             {
@@ -163,209 +217,32 @@ public class PlayerController : MonoBehaviour {
 
                     }
 
+                    //攻撃可能範囲から外れた場合
+                    if (Vector3.Distance(GetVecXZ(transform.position), GetVecXZ(targettingObj.position)) > gameObject.GetComponent<ObjectState>().RANGE + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH)
+                    {
+                        SetTargetFromObj();
+                        act = CHARA_ACT.targetting;
+                        break;
+                    }
+
+                    if (attackDelay <= 0)
+                    {
+                        transform.LookAt(targettingObj);
+                        anim.SetTrigger("attack");
+                        animState = CharacterAnimState.attack;
+                        attackDelay = GetComponent<ObjectState>().NEXT_ATTACK;
+                    }
+                    else
+                    {
+                        animState = CharacterAnimState.idle;
+                    }
+
                     break;
             }
 
 
-            //////////////////////////
-            ///second state machine///
-            //////////////////////////
-
-            //attackDelay -= Time.deltaTime;
-
-            //string s = "";
-            //switch (act)
-            //{
-            //    case CHARA_ACT.idle:
-            //        s = "idle";
-            //        break;
-            //    case CHARA_ACT.freeWalk:
-            //        s = "freeWalk";
-            //        break;
-            //    case CHARA_ACT.targetting:
-            //        s = "targetting";
-            //        break;
-            //    case CHARA_ACT.autoAttack:
-            //        s = "autoAttack";
-            //        break;
-            //}
-            //GameObject.Find("DebugText").GetComponent<Text>().text = s;
-
-            //switch (act)
-            //{
-            //    case CHARA_ACT.idle:
-            //        //基本ないがtargetがいた場合なにか確認する為freeWalkへ
-            //        if (target)
-            //        {
-            //            act = CHARA_ACT.freeWalk;
-            //            break;
-            //        }
-
-            //        anim.SetFloat("speed", 0);
-            //        animState = CharacterAnimState.idle;
-
-            //        break;
-            //    case CHARA_ACT.freeWalk:
-            //        //移動、攻撃をするかどうか
-            //        if (target == null)
-            //        {
-            //            act = CHARA_ACT.idle;
-            //            break;
-            //        }
-            //        //攻撃対象がいるかどうか
-            //        if (targetting)
-            //        {
-            //            act = CHARA_ACT.targetting;
-            //            break;
-            //        }
-            //        //agent.SetDestination(new Vector3(target.position.x, transform.position.y, target.position.z));
-
-            //        //目的地にたどり着いたか、あとモーション等
-            //        if ((transform.position - target.position).magnitude < 0.1f)
-            //        {
-            //            act = CHARA_ACT.idle;
-            //            StopMove();
-            //        }
-            //        else
-            //        {
-            //            float spd = agent.velocity.magnitude;
-            //            anim.SetFloat("speed", spd);
-            //            animState = CharacterAnimState.walk;
-            //        }
-
-            //        break;
-            //    case CHARA_ACT.targetting:
-
-            //        if (Vector3.Distance(transform.position, target.position) < gameObject.GetComponent<ObjectState>().RANGE + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH)
-            //        {
-            //            //攻撃範囲に入ったのでそれ以上近づかないように
-            //            StopMove();
-
-            //            if (animState == CharacterAnimState.idle || animState == CharacterAnimState.walk)
-            //            {
-            //                if (attackDelay <= 0)
-            //                {
-            //                    transform.LookAt(targettingObj);
-            //                    anim.SetTrigger("attack");
-            //                    targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
-            //                    attackDelay = GetComponent<ObjectState>().NEXT_ATTACK;
-            //                    act = CHARA_ACT.autoAttack;
-            //                    animState = CharacterAnimState.attack;
-            //                }
-            //            }
-
-            //        }
-
-            //        break;
-            //    case CHARA_ACT.autoAttack:
-            //        //camera controlからのsendmessageで別ケースへ移動する
-            //        //もしくは攻撃オブジェクトが破壊されたら
-            //        if (targettingObj.gameObject == null)
-            //        {
-            //            foreach(GameObject go in GameObject.FindGameObjectsWithTag("canAttackObject")){
-            //                if(go.GetComponent<ObjectState>().team == GetComponent<ObjectState>().team) continue;
-            //                if (Vector3.Distance(transform.position, go.transform.position) <= GetComponent<ObjectState>().RANGE)
-            //                {
-            //                    act = CHARA_ACT.targetting;
-            //                    GameObject t = new GameObject("target");
-            //                    target.transform.position = go.transform.position + Vector3.Normalize(transform.position - go.transform.position) * 0.5f;
-            //                    MoveTo(t.transform);
-            //                    targetting = true;
-            //                    targettingObj = go.transform;
-            //                    Debug.Log(go);
-            //                    break;
-
-            //                }
-            //            }
-            //            //近くに攻撃可オブジェクトがなければ
-            //            if (targettingObj.gameObject == null)
-            //            {
-            //                act = CHARA_ACT.idle;
-            //                StopMove();
-            //            }
-            //            break;
-            //        }
-
-            //        if (attackDelay <= 0)
-            //        {
-            //            transform.LookAt(targettingObj);
-            //            anim.SetTrigger("attack");
-            //            targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
-            //            attackDelay = GetComponent<ObjectState>().NEXT_ATTACK;
-            //            animState = CharacterAnimState.attack;
-            //        }
-            //        else
-            //        {
-            //            animState = CharacterAnimState.idle;
-            //            StopMove();
-            //        }
-
-            //        break;
-            //}
 
 
-
-
-
-            /////////////////////////
-            ///first state machine///
-            /////////////////////////
-
-            //if (target != null)
-            //{
-
-            //    if (targetting)
-            //    {
-            //        if (Vector3.Distance(transform.position, target.position) < gameObject.GetComponent<ObjectState>().RANGE + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH)
-            //        {
-            //            GameObject t = new GameObject("target");
-            //            t.transform.position = transform.position;
-            //            MoveTo(t.transform);
-
-            //            if (animState == CharacterAnimState.idle || animState == CharacterAnimState.walk)
-            //            {
-            //                anim.SetTrigger("attack");
-            //                animState = CharacterAnimState.attack;
-            //                targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
-            //            }
-
-            //            //AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
-            //            //if (!state.IsName("NormalAttack"))
-            //            //{
-            //            //    anim.SetTrigger("attack");
-            //            //    targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
-            //            //}
-
-            //            transform.LookAt(targettingObj);
-            //            targetting = false;
-            //            targettingObj = null;
-            //            //targetに対して攻撃
-                        
-            //        }
-            //    }
-
-            //    agent.SetDestination(new Vector3(target.position.x, transform.position.y, target.position.z));
-
-
-            //    //transform.LookAt (agent.steeringTarget);
-            //    //transform.LookAt (Vector3.Lerp (transform.forward + transform.position, agent.steeringTarget, Time.deltaTime * turnSpeed));
-
-            //    float spd = agent.velocity.magnitude;
-            //    anim.SetFloat("speed", spd);
-
-            //    if ((transform.position - target.position).magnitude < 0.1f)
-            //    {
-            //        Destroy(target.gameObject);
-            //        target = null;
-            //        anim.SetFloat("speed", 0);
-            //        animState = CharacterAnimState.idle;
-            //    }
-            //    else
-            //    {
-            //        animState = CharacterAnimState.walk;
-            //    }
-
-            //}
 
         }
         else //自分が操作しない場合
@@ -391,6 +268,15 @@ public class PlayerController : MonoBehaviour {
         
 
 	}
+
+    void AttackTargetObj()
+    {
+        if (targetting && targettingObj != null)
+        {
+            targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
+            
+        }
+    }
 
     public void SetTargetFromObj(GameObject go)
     {
@@ -430,6 +316,11 @@ public class PlayerController : MonoBehaviour {
 	
 	}
 
+    void MoveToTarget()
+    {
+        agent.SetDestination(new Vector3(targettingObj.position.x, transform.position.y, targettingObj.position.z));
+    }
+
     Vector3 GetVecXZ(Vector3 vec)
     {
         return new Vector3(vec.x, 0, vec.z);
@@ -444,7 +335,6 @@ public class PlayerController : MonoBehaviour {
             Destroy(target.gameObject);
             target = null;
         }
-        targetting = false;
 
     }
 
@@ -458,8 +348,11 @@ public class PlayerController : MonoBehaviour {
     void RespawnPrepare()
     {
 
+        dying = true;
         act = CHARA_ACT.idle;
         StopMove();
+        targetting = false;
+        targettingObj = null;
         animState = CharacterAnimState.idle;
 
         //respawn位置
@@ -489,6 +382,8 @@ public class PlayerController : MonoBehaviour {
     //生き返る直前
     void RespawnInit()
     {
+
+        dying = false;
 
         //health関係
         GetComponent<HeroState>().Respawn();

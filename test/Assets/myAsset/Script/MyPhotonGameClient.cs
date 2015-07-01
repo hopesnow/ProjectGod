@@ -133,7 +133,17 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
         {
             startPos = redStart.transform.position;
         }
-        player = PhotonNetwork.Instantiate("ethanPrefab", startPos, Quaternion.identity, 0);
+
+        string heroName = "ethanPrefab";
+        switch((HeroCharacter)PhotonNetwork.player.customProperties["HS"]){
+            case HeroCharacter.ninja:
+                heroName = "ninja";
+                break;
+            case HeroCharacter.samurai:
+                heroName = "samurai";
+                break;
+        }
+        player = PhotonNetwork.Instantiate(heroName, startPos, Quaternion.identity, 0);
         player.GetComponent<PlayerController>().controllable = true;
 
 
