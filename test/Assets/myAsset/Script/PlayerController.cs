@@ -42,6 +42,9 @@ public class PlayerController : MonoBehaviour {
     bool dying;
     public bool DYING { get { return dying; } }
 
+    CharacterSkill cSkill;
+    
+
 	// Use this for initialization
 	void Awake () {
 	
@@ -85,6 +88,8 @@ public class PlayerController : MonoBehaviour {
         targettingObj = null;
 
         dying = false;
+
+        cSkill = gameObject.GetComponent<CharacterSkill>();
 
 	}
 	
@@ -399,6 +404,22 @@ public class PlayerController : MonoBehaviour {
         GameObject.Find("Main Camera").SendMessage("CheckRespawnPlayer", this.gameObject);
 
     }
-    
+
+
+    public void OnSkillButton1()
+    {
+        cSkill.ButtonTrigger(NEXT_ATTACK.skill1);
+    }
+
+    public void OnSkillButton2()
+    {
+        cSkill.ButtonTrigger(NEXT_ATTACK.skill2);
+    }
+
+    public void OnSkillButton3()
+    {
+        cSkill.ButtonTrigger(NEXT_ATTACK.skill3);
+    }
+
 
 }

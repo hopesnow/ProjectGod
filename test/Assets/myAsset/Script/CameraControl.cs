@@ -17,13 +17,22 @@ public class CameraControl : MonoBehaviour {
     bool ending = false;
     GameObject endObject = null;
 
+    CharacterSkill cSkill;
+
+    void Awake()
+    {
+        dist = 15;
+        camSpeed = 15.0f;
+
+        movePos = new Vector3();
+        tapPosition = new Vector2();
+
+    }
+
 	// Use this for initialization
 	void Start () {
-		dist = 15;
-		camSpeed = 15.0f;
 
-		movePos = new Vector3 ();
-		tapPosition = new Vector2 ();
+        cSkill = player.gameObject.GetComponent<CharacterSkill>();
 
 	}
 	
@@ -209,6 +218,21 @@ public class CameraControl : MonoBehaviour {
             player.GetComponent<PlayerController>().controllable = true;
         }
 
+    }
+
+    public void PushSkill1()
+    {
+        cSkill.ButtonTrigger(NEXT_ATTACK.skill1);
+    }
+
+    public void PushSkill2()
+    {
+        cSkill.ButtonTrigger(NEXT_ATTACK.skill2);
+    }
+
+    public void PushSkill3()
+    {
+        cSkill.ButtonTrigger(NEXT_ATTACK.skill3);
     }
 
 }
