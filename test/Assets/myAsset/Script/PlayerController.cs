@@ -233,8 +233,9 @@ public class PlayerController : MonoBehaviour {
                     if (attackDelay <= 0)
                     {
                         transform.LookAt(targettingObj);
-                        anim.SetTrigger("attack");
-                        animState = CharacterAnimState.attack;
+                        //anim.SetTrigger("attack");
+                        //animState = CharacterAnimState.attack;
+                        cSkill.Attack(targettingObj.gameObject);
                         attackDelay = GetComponent<ObjectState>().NEXT_ATTACK;
                     }
                     else
