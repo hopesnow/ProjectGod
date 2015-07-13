@@ -11,6 +11,13 @@ public class HeroState : ObjectState
     {
 
         base.Awake();
+
+        health = 150;
+        max_health = 150;
+
+        attack = 20;
+        protect = 8;
+
         mana = 100;
         max_mana = 100;
         magic = 0;
@@ -19,7 +26,8 @@ public class HeroState : ObjectState
         exp = 0;
         gold = 0;
 
-        range = 3.0f;
+        range = 6.0f;
+        attack_speed = 100;
         //melee 1.0f? range 3.0f?
 
     }
@@ -62,6 +70,7 @@ public class HeroState : ObjectState
     {
 
         GetComponent<PlayerController>().SendMessage("RespawnPrepare");
+        GameObject.Find("Main Camera").SendMessage("CheckDeadPlayer", this.gameObject);
 
     }
 

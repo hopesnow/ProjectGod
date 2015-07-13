@@ -15,19 +15,34 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
     public GameObject victory;
     public GameObject defeat;
 
+    public GameObject blueTopGate;
+    public GameObject blueBottomGate;
+    public GameObject redTopGate;
+    public GameObject redBottomGate;
+
+    public GameObject gaugePrefab;
+    public GameObject healthPrefab;
+
+    float startTime;
+    float nextMinion;
+
 	// Use this for initialization
-	void Awake () {
-		PhotonNetwork.isMessageQueueRunning = true;
+    void Awake()
+    {
+        PhotonNetwork.isMessageQueueRunning = true;
 
-		HashTable h = new HashTable (){{"PS", PlayerState.init}};
-		PhotonNetwork.player.SetCustomProperties (h);
+        HashTable h = new HashTable() { { "PS", PlayerState.init } };
+        PhotonNetwork.player.SetCustomProperties(h);
 
-		myPhotonView = this.GetComponent<PhotonView> ();
+        myPhotonView = this.GetComponent<PhotonView>();
 
-	}
+        nextMinion = 5;
+
+    }
 
 	// Update is called once per frame
 	void Update () {
+
 
         if (PhotonNetwork.player.isMasterClient && (PlayerState)PhotonNetwork.player.customProperties["PS"] == PlayerState.init)
         {
@@ -80,10 +95,34 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
         //}
 
+        if (PhotonNetwork.player.isMasterClient && (PlayerState)PhotonNetwork.player.customProperties["PS"] == PlayerState.play)
+        {
+            if ((Time.time - startTime) > nextMinion)
+            {
+                nextMinion += 30;
+                //minionPop
+                for (int i = 0; i < 4; i++)
+                {
+                    if (i < 3)
+                    {
+                        Invoke("MeleeMinionCreate", 1.0f * i);
+                    }
+                    else
+                    {
+                        Invoke("RangeMinionCreate", 1.0f * i);
+                    }
+                }
+
+            }
+
+        }
+
 	}
 	
 	[RPC]
 	void GameStartPrepare(){
+
+        startTime = Time.time;
 
         Vector3 startPos;
         if ((TEAM)PhotonNetwork.player.customProperties["TS"] == TEAM.BLUE)
@@ -94,7 +133,17 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
         {
             startPos = redStart.transform.position;
         }
-        player = PhotonNetwork.Instantiate("ethanPrefab", startPos, Quaternion.identity, 0);
+
+        string heroName = "ethanPrefab";
+        switch((HeroCharacter)PhotonNetwork.player.customProperties["HS"]){
+            case HeroCharacter.ninja:
+                heroName = "ninja";
+                break;
+            case HeroCharacter.samurai:
+                heroName = "samurai";
+                break;
+        }
+        player = PhotonNetwork.Instantiate(heroName, startPos, Quaternion.identity, 0);
         player.GetComponent<PlayerController>().controllable = true;
 
 
@@ -109,6 +158,7 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
         player.GetComponent<ObjectState>().team = (TEAM)PhotonNetwork.player.customProperties["TS"];
         player.GetComponent<ObjectState>().SendMessage("SendTeam");
+
 
 	}
 
@@ -156,6 +206,7 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
         {
             Invoke("Defeat", 2.0f);
         }
+        nextMinion = float.MaxValue;
 
     }
 
@@ -172,6 +223,69 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
         defeat.SetActive(true);
         defeat.GetComponent<Image>().color = new Color(255, 255, 255, 255);
+
+    }
+
+    void MeleeMinionCreate()
+    {
+        BlueTopMinionPop(PhotonNetwork.Instantiate("Goblin_Sword", blueTopGate.transform.position, Quaternion.identity, 0));
+        BlueBottomMinionPop(PhotonNetwork.Instantiate("Goblin_Sword", blueBottomGate.transform.position, Quaternion.identity, 0));
+        RedTopMinionPop(PhotonNetwork.Instantiate("Goblin_Sword", redTopGate.transform.position, Quaternion.identity, 0));
+        RedBottomMinionPop(PhotonNetwork.Instantiate("Goblin_Sword", redBottomGate.transform.position, Quaternion.identity, 0));
+
+    }
+
+    void RangeMinionCreate()
+    {
+        BlueTopMinionPop(PhotonNetwork.Instantiate("Goblin_Bow", blueTopGate.transform.position, Quaternion.identity, 0));
+        BlueBottomMinionPop(PhotonNetwork.Instantiate("Goblin_Bow", blueBottomGate.transform.position, Quaternion.identity, 0));
+        RedTopMinionPop(PhotonNetwork.Instantiate("Goblin_Bow", redTopGate.transform.position, Quaternion.identity, 0));
+        RedBottomMinionPop(PhotonNetwork.Instantiate("Goblin_Bow", redBottomGate.transform.position, Quaternion.identity, 0));
+
+    }
+
+    
+    void BlueTopMinionPop(GameObject minion)
+    {
+        MinionAI ai = minion.GetComponent<MinionAI>();
+        ai.MasterAI = true;
+        ai.team = TEAM.BLUE;
+        ai.lane = LANE.top;
+        minion.GetComponent<MinionState>().team = TEAM.BLUE;
+        
+
+    }
+
+
+    void BlueBottomMinionPop(GameObject minion)
+    {
+        MinionAI ai = minion.GetComponent<MinionAI>();
+        ai.MasterAI = true;
+        ai.team = TEAM.BLUE;
+        ai.lane = LANE.bottom;
+        minion.GetComponent<MinionState>().team = TEAM.BLUE;
+
+    }
+
+
+    void RedTopMinionPop(GameObject minion)
+    {
+        MinionAI ai = minion.GetComponent<MinionAI>();
+        ai.MasterAI = true;
+        ai.team = TEAM.RED;
+        ai.lane = LANE.top;
+        minion.GetComponent<MinionState>().team = TEAM.RED;
+
+    }
+
+
+    void RedBottomMinionPop(GameObject minion)
+    {
+        MinionAI ai = minion.GetComponent<MinionAI>();
+        ai.MasterAI = true;
+        ai.team = TEAM.RED;
+        ai.lane = LANE.bottom;
+        minion.GetComponent<MinionState>().team = TEAM.RED;
 
     }
 

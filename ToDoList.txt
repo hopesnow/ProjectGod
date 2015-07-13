@@ -1,5 +1,11 @@
 ベースの破壊アニメーション
 
-minion waveを作る
+	
 
 視界をわかりやすく表現する（SpotLightなどで）
+	shaderつかう？
+
+mapのオブジェクト差し替え
+
+mini map作成
+

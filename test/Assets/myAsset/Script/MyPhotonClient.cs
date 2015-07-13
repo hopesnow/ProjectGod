@@ -21,6 +21,16 @@ public enum RoomState
 
 }
 
+//room hash
+//"RS" room state
+//"BN" blue num
+//"RN" red num  
+
+
+//player hash
+//"TS" team state
+//"PS" player state
+//"HS" hero state (character state)
 
 public class MyPhotonClient : Photon.MonoBehaviour {
 	private PhotonView myPhotonView = null;
@@ -32,6 +42,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	public GameObject myRoom;
 	public GameObject playerName;
 	public GameObject startButton;//ownerのみOnにする
+    public GameObject heroSelect;
 
 
 	// Use this for initialization
@@ -87,6 +98,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 		myRoom.SendMessage ("SetRoomInfo", PhotonNetwork.room);
 		myRoom.SendMessage ("OpenRoom");
         myPhotonView.RPC("RoomUpdate", PhotonTargets.Others);
+        heroSelect.SetActive(true);
 
 	}
 
@@ -99,6 +111,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 		}
 		myRoom.SendMessage ("CloseRoom");
 		myRoom.SetActive (false);
+        heroSelect.SetActive(false);
 
 	}
 
@@ -221,7 +234,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	void ToGameMain(PhotonMessageInfo info){
         PhotonNetwork.isMessageQueueRunning = false;
 
-		Application.LoadLevel ("GameMain");
+		Application.LoadLevel ("stage");
 
 	}
 

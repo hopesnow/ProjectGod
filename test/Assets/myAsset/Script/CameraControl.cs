@@ -17,13 +17,22 @@ public class CameraControl : MonoBehaviour {
     bool ending = false;
     GameObject endObject = null;
 
+    CharacterSkill cSkill;
+
+    void Awake()
+    {
+        dist = 15;
+        camSpeed = 15.0f;
+
+        movePos = new Vector3();
+        tapPosition = new Vector2();
+
+    }
+
 	// Use this for initialization
 	void Start () {
-		dist = 10;
-		camSpeed = 15.0f;
 
-		movePos = new Vector3 ();
-		tapPosition = new Vector2 ();
+        cSkill = player.gameObject.GetComponent<CharacterSkill>();
 
 	}
 	
@@ -38,42 +47,56 @@ public class CameraControl : MonoBehaviour {
 
         }
 
-		//palyer move
+        if (!player.GetComponent<PlayerController>().DYING)
+        {
+
+            //player move
 #if UNITY_EDITOR || UNITY_STANDALONE
-		if (Input.GetMouseButtonDown (1)) {
 
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit = new RaycastHit();
-		
-			if(Physics.Raycast(ray, out hit)){
 
-                if (hit.collider.gameObject.CompareTag("field"))
+            if (Input.GetMouseButtonDown(1))
+            {
+
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit = new RaycastHit();
+
+                if (Physics.Raycast(ray, out hit))
                 {
-                    GameObject target = new GameObject("target");
-                    target.transform.position = hit.point;
-                    tapPoint.transform.position = hit.point;
-                    player.gameObject.SendMessage("MoveTo", target.transform);
-                    player.gameObject.GetComponent<PlayerController>().targetting = false;
 
-                }
-                else if(hit.collider.gameObject.CompareTag("canAttackObject"))
-                {
-                    GameObject target = new GameObject("target");
-                    target.transform.position = hit.collider.gameObject.transform.position + Vector3.Normalize(player.transform.position - hit.collider.gameObject.transform.position) * 0.5f;
-                    tapPoint.transform.position = target.transform.position;
-                    player.gameObject.SendMessage("MoveTo", target.transform);
-
-                    if (player.GetComponent<ObjectState>().team != hit.collider.gameObject.GetComponent<ObjectState>().team)
+                    if (hit.collider.gameObject.CompareTag("field"))
                     {
-                        player.gameObject.GetComponent<PlayerController>().targetting = true;
-                        player.gameObject.GetComponent<PlayerController>().targettingObj = hit.collider.gameObject.transform;
+                        GameObject target = new GameObject("target");
+                        target.transform.position = hit.point;
+                        tapPoint.transform.position = hit.point;
+                        tapPoint.GetComponent<ParticleSystem>().Play();
+                        player.gameObject.GetComponent<PlayerController>().targetting = false;
+                        player.gameObject.SendMessage("MoveTo", target.transform);
+
+                    }
+                    else if (hit.collider.gameObject.CompareTag("canAttackObject"))
+                    {
+
+                        if (player.GetComponent<ObjectState>().team != hit.collider.gameObject.GetComponent<ObjectState>().team)
+                        {
+                            player.gameObject.GetComponent<PlayerController>().SetTargetFromObj(hit.collider.gameObject);
+                            tapPoint.transform.position = hit.collider.gameObject.transform.position + Vector3.Normalize(player.transform.position - hit.collider.gameObject.transform.position) * 0.5f;
+                            tapPoint.GetComponent<ParticleSystem>().Play();
+                        }
+                        else
+                        {
+                            GameObject target = new GameObject("target");
+                            target.transform.position = hit.collider.gameObject.transform.position + Vector3.Normalize(player.transform.position - hit.collider.gameObject.transform.position) * 0.5f;
+                            tapPoint.transform.position = target.transform.position;
+                            tapPoint.GetComponent<ParticleSystem>().Play();
+                            player.gameObject.GetComponent<PlayerController>().SetTargetFromObj();
+                        }
+
+
                     }
 
                 }
-		
-			}
-		
-		}
+
+            }
 
 #elif UNITY_ANDROID
 
@@ -109,6 +132,8 @@ public class CameraControl : MonoBehaviour {
 		}
 
 #endif
+
+        }//死んでるときはタップできないように
 
 
 #if UNITY_EDITOR || UNITY_STANDALONE
@@ -173,6 +198,41 @@ public class CameraControl : MonoBehaviour {
         ending = true;
         endObject = GameObject.Find(defeatObject);
 
+    }
+
+
+    void CheckDeadPlayer(GameObject deadPlayer)
+    {
+        if (deadPlayer == player.gameObject)
+        {
+            player.GetComponent<PlayerController>().controllable = false;
+        }
+
+    }
+
+    //生き返ったのが自身のプレイヤーか？
+    void CheckRespawnPlayer(GameObject respawnPlayer)
+    {
+        if (respawnPlayer == player.gameObject)
+        {
+            player.GetComponent<PlayerController>().controllable = true;
+        }
+
+    }
+
+    public void PushSkill1()
+    {
+        cSkill.ButtonTrigger(NEXT_ATTACK.skill1);
+    }
+
+    public void PushSkill2()
+    {
+        cSkill.ButtonTrigger(NEXT_ATTACK.skill2);
+    }
+
+    public void PushSkill3()
+    {
+        cSkill.ButtonTrigger(NEXT_ATTACK.skill3);
     }
 
 }
