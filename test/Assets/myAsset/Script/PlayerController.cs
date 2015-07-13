@@ -24,7 +24,7 @@ public enum CHARA_ACT
 public class PlayerController : MonoBehaviour {
 
 	NavMeshAgent agent;
-	Transform target;
+	public Transform target;
 	Animator anim;
 
 	public GameObject healthImage;
@@ -280,7 +280,12 @@ public class PlayerController : MonoBehaviour {
         if (targetting && targettingObj != null)
         {
             targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
-            
+            Debug.Log("attack0:", targettingObj.gameObject);
+
+        }
+        else
+        {
+            Debug.Log("not attack0:", targettingObj.gameObject);
         }
     }
 
