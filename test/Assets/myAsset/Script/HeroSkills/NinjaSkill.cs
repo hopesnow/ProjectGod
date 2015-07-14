@@ -29,13 +29,13 @@ public class NinjaSkill : CharacterSkill {
 
                 break;
             case NEXT_ATTACK.skill1:
-                
 
                 break;
             case NEXT_ATTACK.skill3:
 
                 break;
         }
+        nAttack = NEXT_ATTACK.normal;
 
     }
 
@@ -67,10 +67,12 @@ public class NinjaSkill : CharacterSkill {
                 break;
             case NEXT_ATTACK.skill1:
                 nAttack = NEXT_ATTACK.skill1;
+                anim.SetTrigger("skill1");
 
                 break;
             case NEXT_ATTACK.skill3:
                 nAttack = NEXT_ATTACK.skill3;
+                anim.SetTrigger("skill3");
 
                 break;
             default:

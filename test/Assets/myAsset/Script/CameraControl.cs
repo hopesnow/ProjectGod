@@ -32,8 +32,6 @@ public class CameraControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        cSkill = player.gameObject.GetComponent<CharacterSkill>();
-
 	}
 	
 	// Update is called once per frame
@@ -85,12 +83,12 @@ public class CameraControl : MonoBehaviour {
                         else
                         {
                             GameObject target = new GameObject("target");
-                            target.transform.position = hit.collider.gameObject.transform.position + Vector3.Normalize(player.transform.position - hit.collider.gameObject.transform.position) * 0.5f;
+                            //最後の1.5fはオブジェクトの少し外側に行くように（navmesh対策）
+                            target.transform.position = hit.collider.gameObject.transform.position + Vector3.Normalize(player.transform.position - hit.collider.gameObject.transform.position) * (hit.collider.gameObject.GetComponent<CapsuleCollider>().radius + 1.5f);
                             tapPoint.transform.position = target.transform.position;
                             tapPoint.GetComponent<ParticleSystem>().Play();
-                            player.gameObject.GetComponent<PlayerController>().SetTargetFromObj();
+                            player.gameObject.GetComponent<PlayerController>().SendMessage("MoveTo", target.transform);
                         }
-
 
                     }
 
@@ -189,6 +187,8 @@ public class CameraControl : MonoBehaviour {
     void SetPlayerCamera()
     {
         transform.position = GetPlayerCamera();
+        cSkill = player.GetComponent<CharacterSkill>();
+
     }
 
     void EndGame(string defeatObject)
@@ -219,6 +219,7 @@ public class CameraControl : MonoBehaviour {
         }
 
     }
+
 
     public void PushSkill1()
     {

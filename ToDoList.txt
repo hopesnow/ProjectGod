@@ -9,3 +9,5 @@ mapのオブジェクト差し替え
 
 mini map作成
 
+skillのクールダウン設定
+最初はmanaなし

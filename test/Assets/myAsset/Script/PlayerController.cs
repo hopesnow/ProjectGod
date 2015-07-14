@@ -280,13 +280,9 @@ public class PlayerController : MonoBehaviour {
         if (targetting && targettingObj != null)
         {
             targettingObj.gameObject.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<ObjectState>().ATTACK);
-            Debug.Log("attack0:", targettingObj.gameObject);
 
         }
-        else
-        {
-            Debug.Log("not attack0:", targettingObj.gameObject);
-        }
+
     }
 
     public void SetTargetFromObj(GameObject go)
@@ -295,6 +291,7 @@ public class PlayerController : MonoBehaviour {
         targettingObj = go.transform;
         SetTargetFromObj();
     }
+
 
     public void SetTargetFromObj()
     {
