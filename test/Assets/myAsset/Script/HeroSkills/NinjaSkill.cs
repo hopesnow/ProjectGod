@@ -70,6 +70,10 @@ public class NinjaSkill : CharacterSkill {
                 anim.SetTrigger("skill1");
 
                 break;
+            case NEXT_ATTACK.skill2:
+                anim.SetTrigger("skill2");
+                
+                break;
             case NEXT_ATTACK.skill3:
                 nAttack = NEXT_ATTACK.skill3;
                 anim.SetTrigger("skill3");
@@ -80,6 +84,7 @@ public class NinjaSkill : CharacterSkill {
 
                 break;
         }
+        nAttack = NEXT_ATTACK.normal;
 
 
     }

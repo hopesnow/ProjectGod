@@ -14,7 +14,7 @@ public class CharacterSkill : MonoBehaviour {
     /// <summary>
     /// 通常攻撃で発動するタイプのスキル
     /// </summary>
-    protected NEXT_ATTACK nAttack;
+    public NEXT_ATTACK nAttack;
 
     /// <summary>
     /// 対象指定のスキルの対象

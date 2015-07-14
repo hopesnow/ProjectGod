@@ -96,6 +96,7 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+
         if (controllable)
         {
 
@@ -222,26 +223,47 @@ public class PlayerController : MonoBehaviour {
 
                     }
 
-                    //攻撃可能範囲から外れた場合
-                    if (Vector3.Distance(GetVecXZ(transform.position), GetVecXZ(targettingObj.position)) > gameObject.GetComponent<ObjectState>().RANGE + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH)
+                    //スキル発動範囲かどうか
+                    switch (cSkill.nAttack)
                     {
-                        SetTargetFromObj();
-                        act = CHARA_ACT.targetting;
-                        break;
-                    }
+                        case NEXT_ATTACK.normal:
 
-                    if (attackDelay <= 0)
-                    {
-                        transform.LookAt(targettingObj);
-                        //anim.SetTrigger("attack");
-                        //animState = CharacterAnimState.attack;
-                        cSkill.Attack(targettingObj.gameObject);
-                        attackDelay = GetComponent<ObjectState>().NEXT_ATTACK;
+                            //攻撃可能範囲から外れた場合
+                            if (Vector3.Distance(GetVecXZ(transform.position), GetVecXZ(targettingObj.position)) > gameObject.GetComponent<ObjectState>().RANGE + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH)
+                            {
+                                SetTargetFromObj();
+                                act = CHARA_ACT.targetting;
+                                break;
+                            }
+
+                            //何事もなく攻撃可能タイミングになったか
+                            if (attackDelay <= 0)
+                            {
+                                transform.LookAt(targettingObj);
+                                //anim.SetTrigger("attack");
+                                //animState = CharacterAnimState.attack;
+                                cSkill.Attack(targettingObj.gameObject);
+                                attackDelay = GetComponent<ObjectState>().NEXT_ATTACK;
+                            }
+                            else
+                            {
+                                animState = CharacterAnimState.idle;
+                            }
+
+                            break;
+                        case NEXT_ATTACK.skill1:
+
+                            break;
+                        case NEXT_ATTACK.skill2:
+
+                            break;
+                        case NEXT_ATTACK.skill3:
+
+                            break;
                     }
-                    else
-                    {
-                        animState = CharacterAnimState.idle;
-                    }
+                    
+
+                    
 
                     break;
             }
@@ -263,7 +285,10 @@ public class PlayerController : MonoBehaviour {
                     anim.SetFloat("speed", 3.5f);
                     break;
                 case CharacterAnimState.attack:
-                    anim.SetTrigger("attack");
+                    if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Base.NormalAttack"))
+                    {
+                        anim.SetTrigger("attack");
+                    }
                     break;
 
 
