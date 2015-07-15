@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour {
     public bool DYING { get { return dying; } }
 
     CharacterSkill cSkill;
+    bool skillPlaying;
     
 
 	// Use this for initialization
@@ -90,6 +91,7 @@ public class PlayerController : MonoBehaviour {
         dying = false;
 
         cSkill = gameObject.GetComponent<CharacterSkill>();
+        skillPlaying = false;
 
 	}
 	
@@ -241,7 +243,7 @@ public class PlayerController : MonoBehaviour {
                             {
                                 transform.LookAt(targettingObj);
                                 //anim.SetTrigger("attack");
-                                //animState = CharacterAnimState.attack;
+                                animState = CharacterAnimState.attack;
                                 cSkill.Attack(targettingObj.gameObject);
                                 attackDelay = GetComponent<ObjectState>().NEXT_ATTACK;
                             }
@@ -253,11 +255,26 @@ public class PlayerController : MonoBehaviour {
                             break;
                         case NEXT_ATTACK.skill1:
 
-                            break;
-                        case NEXT_ATTACK.skill2:
+
+
+                            if (Vector3.Distance(GetVecXZ(transform.position), GetVecXZ(targettingObj.position)) > gameObject.GetComponent<HeroState>().RANGE_SKILL1 + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH)
+                            {
+                                SetTargetFromObj();
+                                act = CHARA_ACT.targetting;
+                                break;
+                            }
+
+                            skillPlaying = true;
+                            transform.LookAt(targettingObj);
+                            animState = CharacterAnimState.skill1;
+                            cSkill.Attack(targettingObj.gameObject);
+                            attackDelay = GetComponent<ObjectState>().NEXT_ATTACK;
+
 
                             break;
                         case NEXT_ATTACK.skill3:
+
+
 
                             break;
                     }
@@ -447,6 +464,28 @@ public class PlayerController : MonoBehaviour {
     public void OnSkillButton3()
     {
         cSkill.ButtonTrigger(NEXT_ATTACK.skill3);
+    }
+
+
+    public void EndSkill()
+    {
+        skillPlaying = false;
+        animState = CharacterAnimState.idle;
+    }
+
+    public void AttackSkill1()
+    {
+
+    }
+
+    public void AttackSkill2()
+    {
+
+    }
+
+    public void AttackSkill3()
+    {
+
     }
 
 
