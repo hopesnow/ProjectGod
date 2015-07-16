@@ -33,6 +33,7 @@ public class NinjaSkill : CharacterSkill {
 
                 break;
             case NEXT_ATTACK.skill3:
+                anim.SetTrigger("skill3");
 
                 break;
         }
@@ -40,43 +41,53 @@ public class NinjaSkill : CharacterSkill {
 
     }
 
-    protected override void Skill1()
+    public override void Skill1()
     {
         base.Skill1();
         //ブリンクからの通常攻撃
     }
 
-    protected override void Skill2()
+    public override void Skill2()
     {
         base.Skill2();
         //自分の周りに範囲攻撃
     }
 
-    protected override void Skill3()
+    public override void Skill3()
     {
         base.Skill3();
         //目の前の○度の敵にノックバック攻撃
 
     }
 
-    public override void ButtonTrigger(NEXT_ATTACK na)
+    public override NEXT_ATTACK ButtonTrigger(NEXT_ATTACK na)
     {
+
+        
+
         switch(na){
             case NEXT_ATTACK.normal:
                 nAttack = NEXT_ATTACK.normal;
 
                 break;
             case NEXT_ATTACK.skill1:
-                nAttack = NEXT_ATTACK.skill1;
+                if (nAttack == na)
+                    nAttack = NEXT_ATTACK.normal;
+                else
+                    nAttack = NEXT_ATTACK.skill1;
+
 
                 break;
             case NEXT_ATTACK.skill2:
                 anim.SetTrigger("skill2");
+                nAttack = NEXT_ATTACK.normal;
                 
                 break;
             case NEXT_ATTACK.skill3:
-                nAttack = NEXT_ATTACK.skill3;
-                //anim.SetTrigger("skill3");
+                if (nAttack == na)
+                    nAttack = NEXT_ATTACK.normal;
+                else
+                    nAttack = NEXT_ATTACK.skill3;
 
                 break;
             default:
@@ -84,8 +95,9 @@ public class NinjaSkill : CharacterSkill {
 
                 break;
         }
-        //nAttack = NEXT_ATTACK.normal;
 
+
+        return nAttack;
 
     }
 

@@ -30,19 +30,19 @@ public class SamuraiSkill : CharacterSkill {
 
     }
 
-    protected override void Skill1()
+    public override void Skill1()
     {
         base.Skill1();
 
     }
 
-    protected override void Skill2()
+    public override void Skill2()
     {
         base.Skill2();
 
     }
 
-    protected override void Skill3()
+    public override void Skill3()
     {
         base.Skill3();
 

@@ -225,6 +225,8 @@ public class PlayerController : MonoBehaviour {
 
                     }
 
+                    if (skillPlaying) break;
+
                     //スキル発動範囲かどうか
                     switch (cSkill.nAttack)
                     {
@@ -274,6 +276,17 @@ public class PlayerController : MonoBehaviour {
                             break;
                         case NEXT_ATTACK.skill3:
 
+
+                            if (Vector3.Distance(GetVecXZ(transform.position), GetVecXZ(targettingObj.position)) > gameObject.GetComponent<HeroState>().RANGE_SKILL3 + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH)
+                            {
+                                SetTargetFromObj();
+                                act = CHARA_ACT.targetting;
+                                break;
+                            }
+
+                            skillPlaying = true;
+                            transform.LookAt(targettingObj);
+                            animState = CharacterAnimState.skill3;
 
 
                             break;
@@ -471,21 +484,6 @@ public class PlayerController : MonoBehaviour {
     {
         skillPlaying = false;
         animState = CharacterAnimState.idle;
-    }
-
-    public void AttackSkill1()
-    {
-
-    }
-
-    public void AttackSkill2()
-    {
-
-    }
-
-    public void AttackSkill3()
-    {
-
     }
 
 

@@ -43,23 +43,26 @@ public class CharacterSkill : MonoBehaviour {
         target = t;
     }
 
-    protected virtual void Skill1()
+    public virtual void Skill1()
     {
 
     }
 
-    protected virtual void Skill2()
+    public virtual void Skill2()
     {
 
     }
 
-    protected virtual void Skill3()
+    public virtual void Skill3()
     {
 
     }
 
-    public virtual void ButtonTrigger(NEXT_ATTACK na)
+    public virtual NEXT_ATTACK ButtonTrigger(NEXT_ATTACK na)
     {
+
+
+        return nAttack;
 
     }
 

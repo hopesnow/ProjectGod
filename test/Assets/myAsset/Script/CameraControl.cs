@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class CameraControl : MonoBehaviour {
 
@@ -223,17 +224,53 @@ public class CameraControl : MonoBehaviour {
 
     public void PushSkill1()
     {
-        cSkill.ButtonTrigger(NEXT_ATTACK.skill1);
+        if (cSkill.ButtonTrigger(NEXT_ATTACK.skill1) == NEXT_ATTACK.normal)
+        {
+            GameObject.Find("Skill1").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            GameObject.Find("Skill2").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            GameObject.Find("Skill3").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
+        }
+        else
+        {
+            GameObject.Find("Skill1").GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+        }
+
     }
 
     public void PushSkill2()
     {
-        cSkill.ButtonTrigger(NEXT_ATTACK.skill2);
+        if (cSkill.ButtonTrigger(NEXT_ATTACK.skill2) == NEXT_ATTACK.normal)
+        {
+            GameObject.Find("Skill2").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            GameObject.Find("Skill2").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            GameObject.Find("Skill3").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
+        }
+        else
+        {
+            GameObject.Find("Skill2").GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+        }
+
     }
 
     public void PushSkill3()
     {
-        cSkill.ButtonTrigger(NEXT_ATTACK.skill3);
+        if (cSkill.ButtonTrigger(NEXT_ATTACK.skill3) == NEXT_ATTACK.normal)
+        {
+            GameObject.Find("Skill3").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            GameObject.Find("Skill2").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            GameObject.Find("Skill3").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
+        }
+        else
+        {
+            GameObject.Find("Skill3").GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+        }
+
     }
 
 }
