@@ -287,6 +287,8 @@ public class PlayerController : MonoBehaviour {
                             skillPlaying = true;
                             transform.LookAt(targettingObj);
                             animState = CharacterAnimState.skill3;
+                            cSkill.Attack(targettingObj.gameObject);
+                            attackDelay = GetComponent<ObjectState>().NEXT_ATTACK;
 
 
                             break;

@@ -224,53 +224,51 @@ public class CameraControl : MonoBehaviour {
 
     public void PushSkill1()
     {
-        if (cSkill.ButtonTrigger(NEXT_ATTACK.skill1) == NEXT_ATTACK.normal)
-        {
-            GameObject.Find("Skill1").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-            GameObject.Find("Skill2").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-            GameObject.Find("Skill3").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-
-        }
-        else
-        {
-            GameObject.Find("Skill1").GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
-
-        }
+        cSkill.ButtonTrigger(NEXT_ATTACK.skill1);
 
     }
 
     public void PushSkill2()
     {
-        if (cSkill.ButtonTrigger(NEXT_ATTACK.skill2) == NEXT_ATTACK.normal)
-        {
-            GameObject.Find("Skill2").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-            GameObject.Find("Skill2").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-            GameObject.Find("Skill3").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-
-        }
-        else
-        {
-            GameObject.Find("Skill2").GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
-
-        }
+        cSkill.ButtonTrigger(NEXT_ATTACK.skill2);
 
     }
 
     public void PushSkill3()
     {
-        if (cSkill.ButtonTrigger(NEXT_ATTACK.skill3) == NEXT_ATTACK.normal)
-        {
-            GameObject.Find("Skill3").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-            GameObject.Find("Skill2").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-            GameObject.Find("Skill3").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        cSkill.ButtonTrigger(NEXT_ATTACK.skill3);
 
-        }
-        else
+    }
+
+    public void SkillColorSet(NEXT_ATTACK na)
+    {
+
+        GameObject.Find("Skill1").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        GameObject.Find("Skill2").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        GameObject.Find("Skill3").GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        
+        switch (na)
         {
-            GameObject.Find("Skill3").GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+            case NEXT_ATTACK.normal:
+                
+                break;
+            case NEXT_ATTACK.skill1:
+                GameObject.Find("Skill1").GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+                break;
+            case NEXT_ATTACK.skill2:
+                GameObject.Find("Skill2").GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+                break;
+            case NEXT_ATTACK.skill3:
+                GameObject.Find("Skill3").GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+                break;
 
         }
 
     }
+
+
 
 }

@@ -29,7 +29,7 @@ public class CharacterSkill : MonoBehaviour {
 	protected virtual void Start () {
         nAttack = NEXT_ATTACK.normal;
 
-        anim = gameObject.GetComponentInChildren<Animator>();
+        anim = gameObject.GetComponent<Animator>();
 
 	}
 	
@@ -58,11 +58,9 @@ public class CharacterSkill : MonoBehaviour {
 
     }
 
-    public virtual NEXT_ATTACK ButtonTrigger(NEXT_ATTACK na)
+    public virtual void ButtonTrigger(NEXT_ATTACK na)
     {
 
-
-        return nAttack;
 
     }
 

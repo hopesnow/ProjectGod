@@ -38,6 +38,7 @@ public class NinjaSkill : CharacterSkill {
                 break;
         }
         nAttack = NEXT_ATTACK.normal;
+        GameObject.Find("Main Camera").GetComponent<CameraControl>().SkillColorSet(nAttack);
 
     }
 
@@ -60,7 +61,7 @@ public class NinjaSkill : CharacterSkill {
 
     }
 
-    public override NEXT_ATTACK ButtonTrigger(NEXT_ATTACK na)
+    public override void ButtonTrigger(NEXT_ATTACK na)
     {
 
         
@@ -96,8 +97,7 @@ public class NinjaSkill : CharacterSkill {
                 break;
         }
 
-
-        return nAttack;
+        GameObject.Find("Main Camera").GetComponent<CameraControl>().SkillColorSet(nAttack);
 
     }
 
