@@ -23,34 +23,89 @@ public class SamuraiSkill : CharacterSkill {
             case NEXT_ATTACK.normal:
                 anim.SetTrigger("attack");
 
+                break;
+            case NEXT_ATTACK.skill1:
+                anim.SetTrigger("skill1");
+
+                break;
+            case NEXT_ATTACK.skill2:
+                anim.SetTrigger("skill2");
+
+                break;
+            case NEXT_ATTACK.skill3:
+                anim.SetTrigger("skill3");
 
                 break;
 
         }
+        nAttack = NEXT_ATTACK.normal;
+        GameObject.Find("Main Camera").GetComponent<CameraControl>().SkillColorSet(nAttack);
 
     }
 
     public override void Skill1()
     {
         base.Skill1();
-        //
+        //蹴り上げ
 
     }
 
     public override void Skill2()
     {
         base.Skill2();
-        //
+        //二段斬り
 
     }
 
     public override void Skill3()
     {
         base.Skill3();
-        //
+        //掌底突き
 
     }
 
+
+    public override void ButtonTrigger(NEXT_ATTACK na)
+    {
+
+        switch (na)
+        {
+            case NEXT_ATTACK.normal:
+                nAttack = NEXT_ATTACK.normal;
+
+                break;
+            case NEXT_ATTACK.skill1:
+                if (nAttack == na)
+                    nAttack = NEXT_ATTACK.normal;
+                else
+                    nAttack = NEXT_ATTACK.skill1;
+
+                break;
+            case NEXT_ATTACK.skill2:
+                if (nAttack == na)
+                    nAttack = NEXT_ATTACK.normal;
+                else
+                    nAttack = NEXT_ATTACK.skill2;
+
+                break;
+            case NEXT_ATTACK.skill3:
+                if (nAttack == na)
+                    nAttack = NEXT_ATTACK.normal;
+                else
+                    nAttack = NEXT_ATTACK.skill3;
+
+                break;
+            default:
+                nAttack = NEXT_ATTACK.normal;
+
+                break;
+
+        }
+
+        GameObject.Find("Main Camera").GetComponent<CameraControl>().SkillColorSet(nAttack);
+
+
+    }
 
 
 }

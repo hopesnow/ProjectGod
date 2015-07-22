@@ -67,6 +67,7 @@
      <Compile Include="Assets\MyAsset\Script\States\MinionState.cs" />
      <Compile Include="Assets\MyAsset\Script\States\NinjaState.cs" />
      <Compile Include="Assets\MyAsset\Script\States\ObjectState.cs" />
+     <Compile Include="Assets\MyAsset\Script\States\SamuraiState.cs" />
      <Compile Include="Assets\MyAsset\Script\States\TowerState.cs" />
      <Compile Include="Assets\MyAsset\Script\TouchControl.cs" />
      <Compile Include="Assets\MyAsset\Script\TowerAI.cs" />
