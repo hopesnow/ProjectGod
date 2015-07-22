@@ -466,6 +466,7 @@ public class PlayerController : MonoBehaviour {
     }
 
 
+    //スキルボタン押下
     public void OnSkillButton1()
     {
         cSkill.ButtonTrigger(NEXT_ATTACK.skill1);
@@ -488,5 +489,23 @@ public class PlayerController : MonoBehaviour {
         animState = CharacterAnimState.idle;
     }
 
+
+    //スキル発動
+    public void OnSkill1Action()
+    {
+        cSkill.Skill1();
+    }
+
+    public void OnSkill2Action()
+    {
+        cSkill.Skill2();
+
+    }
+
+    public void OnSkill3Action()
+    {
+        cSkill.Skill3();
+
+    }
 
 }

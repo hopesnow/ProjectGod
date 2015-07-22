@@ -46,18 +46,32 @@ public class NinjaSkill : CharacterSkill {
     {
         base.Skill1();
         //ブリンクからの通常攻撃
+        target.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<NinjaState>().ATTACK_SKILL1);
+
     }
 
     public override void Skill2()
     {
         base.Skill2();
         //自分の周りに範囲攻撃
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("canAttackObject"))
+        {
+            if(Vector3.Distance(GetVecXZ(transform.position) , GetVecXZ(go.transform.position)) <= GetComponent<NinjaState>().RANGE_SKILL2){
+                if (go.GetComponent<ObjectState>().team == transform.GetComponent<ObjectState>().team) continue;
+                go.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<NinjaState>().ATTACK_SKILL2);
+            }
+
+        }
+
+
     }
 
     public override void Skill3()
     {
         base.Skill3();
         //目の前の○度の敵にノックバック攻撃
+        target.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<NinjaState>().ATTACK_SKILL3);
+
 
     }
 
@@ -99,6 +113,13 @@ public class NinjaSkill : CharacterSkill {
 
         GameObject.Find("Main Camera").GetComponent<CameraControl>().SkillColorSet(nAttack);
 
+    }
+
+
+
+    Vector3 GetVecXZ(Vector3 vec)
+    {
+        return new Vector3(vec.x, 0, vec.z);
     }
 
 
