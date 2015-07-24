@@ -30,7 +30,6 @@ public class SamuraiSkill : CharacterSkill {
                 break;
             case NEXT_ATTACK.skill2:
                 anim.SetTrigger("skill2");
-                Debug.Log("test");
 
                 break;
             case NEXT_ATTACK.skill3:
@@ -57,8 +56,6 @@ public class SamuraiSkill : CharacterSkill {
         base.Skill2();
         //二段斬り
         target.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<SamuraiState>().ATTACK_SKILL2);
-
-        Debug.Log("act skill2");
 
     }
 

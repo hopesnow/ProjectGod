@@ -258,7 +258,6 @@ public class PlayerController : MonoBehaviour {
                         case NEXT_ATTACK.skill1:
 
 
-
                             if (Vector3.Distance(GetVecXZ(transform.position), GetVecXZ(targettingObj.position)) > gameObject.GetComponent<HeroState>().RANGE_SKILL1 + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH)
                             {
                                 SetTargetFromObj();
@@ -269,6 +268,23 @@ public class PlayerController : MonoBehaviour {
                             skillPlaying = true;
                             transform.LookAt(targettingObj);
                             animState = CharacterAnimState.skill1;
+                            cSkill.Attack(targettingObj.gameObject);
+                            attackDelay = GetComponent<ObjectState>().NEXT_ATTACK;
+
+
+                            break;
+                        case NEXT_ATTACK.skill2:
+
+                            if (Vector3.Distance(GetVecXZ(transform.position), GetVecXZ(targettingObj.position)) > gameObject.GetComponent<HeroState>().RANGE_SKILL1 + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH)
+                            {
+                                SetTargetFromObj();
+                                act = CHARA_ACT.targetting;
+                                break;
+                            }
+
+                            skillPlaying = true;
+                            transform.LookAt(targettingObj);
+                            animState = CharacterAnimState.skill2;
                             cSkill.Attack(targettingObj.gameObject);
                             attackDelay = GetComponent<ObjectState>().NEXT_ATTACK;
 
