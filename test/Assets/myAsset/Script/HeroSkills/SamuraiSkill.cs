@@ -58,6 +58,8 @@ public class SamuraiSkill : CharacterSkill {
         //二段斬り
         target.GetComponent<ObjectState>().SendMessage("DamageAttack", GetComponent<SamuraiState>().ATTACK_SKILL2);
 
+        Debug.Log("act skill2");
+
     }
 
     public override void Skill3()
