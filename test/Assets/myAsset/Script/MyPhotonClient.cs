@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using HashTable = ExitGames.Client.Photon.Hashtable;
@@ -224,13 +224,13 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
     }
 
-    [RPC]
+    [PunRPC]
     void RoomUpdate()
     {
         myRoom.SendMessage("SetPlayerName");
     }
 
-	[RPC]
+	[PunRPC]
 	void ToGameMain(PhotonMessageInfo info){
         PhotonNetwork.isMessageQueueRunning = false;
 

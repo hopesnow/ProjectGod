@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class TowerAttaker : MonoBehaviour {
@@ -56,7 +56,7 @@ public class TowerAttaker : MonoBehaviour {
 
     }
 
-    [RPC]
+    [PunRPC]
     void attacked()
     {
         Destroy(gameObject);

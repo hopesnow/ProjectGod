@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using HashTable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.UI;
@@ -119,7 +119,7 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
 	}
 	
-	[RPC]
+	[PunRPC]
 	void GameStartPrepare(){
 
         startTime = Time.time;
@@ -162,7 +162,7 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
 	}
 
-    //[RPC]
+    //[PunRPC]
     //void GameStarting()
     //{
 
@@ -192,7 +192,7 @@ public class MyPhotonGameClient : Photon.MonoBehaviour {
 
     }
 
-    [RPC]
+    [PunRPC]
     void GameEnd(string defeatBase)
     {
 

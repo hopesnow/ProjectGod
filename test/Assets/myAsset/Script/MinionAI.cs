@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 //フェーズを作って行動を管理しよう
@@ -194,13 +194,13 @@ public class MinionAI : MonoBehaviour {
 	
 	}
 
-    [RPC]
+    [PunRPC]
     void SetLaneAI(int l)
     {
         lane = (LANE)l;
     }
 
-    [RPC]
+    [PunRPC]
     void SetTeamAI(int t)
     {
         team = (TEAM)t;

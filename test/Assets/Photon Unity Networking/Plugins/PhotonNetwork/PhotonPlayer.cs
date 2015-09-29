@@ -38,6 +38,7 @@ public class PhotonPlayer
     private string nameField = "";
 
     /// <summary>Nickname of this player.</summary>
+    /// <remarks>Set the PhotonNetwork.playerName to make the name synchronized in a room.</remarks>
     public string name {
         get
         {
@@ -50,20 +51,32 @@ public class PhotonPlayer
                 Debug.LogError("Error: Cannot change the name of a remote player!");
                 return;
             }
+            if (string.IsNullOrEmpty(value) || value.Equals(this.nameField))
+            {
+                return;
+            }
 
             this.nameField = value;
+            PhotonNetwork.playerName = value;   // this will sync the local player's name in a room
         }
     }
+
+    ///// <summary>UserId of the player. Sent when room gets created with RoomOptions.publishUserId = true. Useful for FindFriends and blocking slots in a room for expected players.</summary>
+    //public string userId { get; internal set; }
+
 
     /// <summary>Only one player is controlled by each client. Others are not local.</summary>
     public readonly bool isLocal = false;
 
     /// <summary>
-    /// The player with the lowest actorID is the master and could be used for special tasks.
+    /// True if this player is the Master Client of the current room.
     /// </summary>
+    /// <remarks>
+    /// See also: PhotonNetwork.masterClient.
+    /// </remarks>
     public bool isMasterClient
     {
-        get { return (PhotonNetwork.networkingPeer.mMasterClient == this); }
+        get { return (PhotonNetwork.networkingPeer.mMasterClientId == this.ID); }
     }
 
     /// <summary>Read-only cache for custom properties of player. Set via Player.SetCustomProperties.</summary>
@@ -72,7 +85,7 @@ public class PhotonPlayer
     /// properties of this class to modify values. When you use those, the client will
     /// sync values with the server.
     /// </remarks>
-    public Hashtable customProperties { get; private set; }
+    public Hashtable customProperties { get; internal set; }
 
     /// <summary>Creates a Hashtable with all properties (custom and "well known" ones).</summary>
     /// <remarks>If used more often, this should be cached.</remarks>
@@ -160,6 +173,14 @@ public class PhotonPlayer
         {
             this.nameField = (string)properties[ActorProperties.PlayerName];
         }
+        //if (properties.ContainsKey(ActorProperties.UserId))
+        //{
+        //    this.userId = (string)properties[ActorProperties.UserId];
+        //}
+        if (properties.ContainsKey(ActorProperties.IsInactive))
+        {
+            // TODO: implement isinactive
+        }
 
         this.customProperties.MergeStringKeys(properties);
         this.customProperties.StripKeysWithNullValues();
@@ -196,15 +217,37 @@ public class PhotonPlayer
         Hashtable customProps = propertiesToSet.StripToStringKeys() as Hashtable;
         if (this.actorID > 0 && !PhotonNetwork.offlineMode)
         {
-            PhotonNetwork.networkingPeer.OpSetCustomPropertiesOfActor(this.actorID, customProps, true, 0);
+            PhotonNetwork.networkingPeer.OpSetCustomPropertiesOfActor(this.actorID, customProps);
         }
         NetworkingPeer.SendMonoMessage(PhotonNetworkingMessage.OnPhotonPlayerPropertiesChanged, this, propertiesToSet);
     }
 
+    /// <summary>
+    /// Will update properties on the server, if the expectedValues are matching the current (property)values on the server.
+    /// </summary>
+    /// <remarks>
+    /// This variant of SetCustomProperties uses server side Check-And-Swap (CAS) to update valuzes only if the expected values are correct.
+    /// The expectedValues can't be null or empty, but they can be different key/values than the propertiesToSet.
+    /// 
+    /// If the client's knowledge of properties is wrong or outdated, it can't set values (with CAS).
+    /// This can be useful to keep players from concurrently setting values. For example: If all players
+    /// try to pickup some card or item, only one should get it. With CAS, only the first SetProperties 
+    /// gets executed server-side and any other (sent at the same time) fails.
+    /// 
+    /// The server will broadcast successfully changed values and the local "cache" of customProperties 
+    /// only gets updated after a roundtrip (if anything changed).
+    /// </remarks>
+    /// <param name="propertiesToSet">The new properties to be set. </param>
+    /// <param name="expectedValues">At least one property key/value set to check server-side. Key and value must be correct.</param>
     public void SetCustomProperties(Hashtable propertiesToSet, Hashtable expectedValues)
     {
         if (propertiesToSet == null)
         {
+            return;
+        }
+        if (expectedValues == null || expectedValues.Count == 0)
+        {
+            Debug.LogWarning("SetCustomProperties(props, expected) requires some expectedValues. Use SetCustomProperties(props) to simply set some without check.");
             return;
         }
 
@@ -212,9 +255,8 @@ public class PhotonPlayer
         {
             Hashtable customProps = propertiesToSet.StripToStringKeys() as Hashtable;
             Hashtable customPropsToCheck = expectedValues.StripToStringKeys() as Hashtable;
-            PhotonNetwork.networkingPeer.OpSetPropertiesOfActor(this.actorID, customProps, false, 0, customPropsToCheck);
+            PhotonNetwork.networkingPeer.OpSetPropertiesOfActor(this.actorID, customProps, customPropsToCheck);
         }
-        NetworkingPeer.SendMonoMessage(PhotonNetworkingMessage.OnPhotonPlayerPropertiesChanged, this, propertiesToSet);
     }
 
     /// <summary>
@@ -224,13 +266,9 @@ public class PhotonPlayer
     /// <returns>The player with matching actorID or null, if the actorID is not in use.</returns>
     public static PhotonPlayer Find(int ID)
     {
-        for (int index = 0; index < PhotonNetwork.playerList.Length; index++)
+        if (PhotonNetwork.networkingPeer != null)
         {
-            PhotonPlayer player = PhotonNetwork.playerList[index];
-            if (player.ID == ID)
-            {
-                return player;
-            }
+            return PhotonNetwork.networkingPeer.GetPlayerWithId(ID);
         }
         return null;
     }

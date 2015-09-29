@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public enum TEAM
@@ -77,7 +77,7 @@ public class ObjectState : Photon.MonoBehaviour {
         myPhotonView.RPC("SetTeam", PhotonTargets.All, (int)team);
     }
 
-    [RPC]
+    [PunRPC]
     protected void SetTeam(int t)
     {
         team = (TEAM)t;
@@ -87,7 +87,7 @@ public class ObjectState : Photon.MonoBehaviour {
         }
     }
 
-    [RPC]
+    [PunRPC]
     protected void Damage(int d)
     {
         int damage = DamageCalc(d);
