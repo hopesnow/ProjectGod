@@ -31,7 +31,6 @@ public class BaseState : ObjectState {
     {
 
         GameObject.Find("Photon").SendMessage("GameEndRPC", gameObject.name);
-        Debug.Log("Dead BASE");
 
     }
 

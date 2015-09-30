@@ -53,6 +53,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
 	void OnJoinedLobby() {
 //		PhotonNetwork.JoinRandomRoom();
+
 		SetPlayerName ();
 		playerName.GetComponent<InputField> ().interactable = true;
 

@@ -232,8 +232,6 @@ public class CameraControl : MonoBehaviour {
     {
         cSkill.ButtonTrigger(NEXT_ATTACK.skill2);
 
-        Debug.Log("push skill2");
-
     }
 
     public void PushSkill3()
