@@ -45,6 +45,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
     public GameObject heroSelect;
 
 
+
 	// Use this for initialization
 	void Start () {
 		PhotonNetwork.ConnectUsingSettings("0.1");
@@ -235,7 +236,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	void ToGameMain(PhotonMessageInfo info){
         PhotonNetwork.isMessageQueueRunning = false;
 
-		Application.LoadLevel ("stage");
+		Application.LoadLevel ("Stage1");
 
 	}
 
