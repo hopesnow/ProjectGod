@@ -42,6 +42,8 @@ public class HeroSelector : MonoBehaviour {
 
     public void SetIcon(HeroCharacter hero)
     {
+
+        Debug.Log("set icon");
         HashTable hHash;
         switch(hero){
             case HeroCharacter.ninja:

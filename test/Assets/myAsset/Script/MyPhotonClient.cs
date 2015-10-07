@@ -48,13 +48,15 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
 		PhotonNetwork.ConnectUsingSettings("0.1");
+        
 
 	}
 
 	void OnJoinedLobby() {
 //		PhotonNetwork.JoinRandomRoom();
-
+        Debug.Log("1:OnJoinedLobby");
 		SetPlayerName ();
 		playerName.GetComponent<InputField> ().interactable = true;
 
@@ -69,6 +71,8 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	}
 
 	void OnJoinedRoom(){
+
+        Debug.Log("3:OnJoinedRoom");
 
 		myPhotonView = this.GetComponent<PhotonView> ();
 
@@ -96,11 +100,13 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 		for (int i = 0; i < roomUI.Length; i++) {
 			roomUI[i].SetActive(false);
 		}
+
         myRoom.SetActive(true);
 		myRoom.SendMessage ("SetRoomInfo", PhotonNetwork.room);
+
+        heroSelect.SetActive(true);
 		myRoom.SendMessage ("OpenRoom");
         myPhotonView.RPC("RoomUpdate", PhotonTargets.Others);
-        heroSelect.SetActive(true);
 
 	}
 
@@ -152,6 +158,8 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	}
 
 	void CreateRoom(){
+
+        Debug.Log("2:CreateRoom");
 
 		startButton.GetComponent<Button> ().interactable = true;
 
@@ -229,6 +237,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
     [PunRPC]
     void RoomUpdate()
     {
+
         myRoom.SendMessage("SetPlayerName");
     }
 
