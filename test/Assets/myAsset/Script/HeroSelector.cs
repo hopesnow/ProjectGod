@@ -23,6 +23,7 @@ public class HeroSelector : MonoBehaviour {
     {
 
         myPhotonView = GameObject.Find("Client").GetComponent<PhotonView>();
+        //SetIcon(HeroCharacter.ninja);//default hero
 
     }
 
@@ -30,7 +31,6 @@ public class HeroSelector : MonoBehaviour {
 	void Start () {
 
         info = GameObject.Find("RoomInfo").GetComponent<MyRoomInfo>();
-        SetIcon(HeroCharacter.ninja);//default
 
 	}
 	
@@ -43,7 +43,6 @@ public class HeroSelector : MonoBehaviour {
     public void SetIcon(HeroCharacter hero)
     {
 
-        Debug.Log("set icon");
         HashTable hHash;
         switch(hero){
             case HeroCharacter.ninja:

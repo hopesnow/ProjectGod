@@ -43,6 +43,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	public GameObject playerName;
 	public GameObject startButton;//ownerのみOnにする
     public GameObject heroSelect;
+    public GameObject createRoomButton;
 
 
 
@@ -56,9 +57,10 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 
 	void OnJoinedLobby() {
 //		PhotonNetwork.JoinRandomRoom();
-        Debug.Log("1:OnJoinedLobby");
+
 		SetPlayerName ();
 		playerName.GetComponent<InputField> ().interactable = true;
+        createRoomButton.GetComponent<Button>().interactable = true;
 
 	}
 
@@ -67,12 +69,11 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 			roomUI[i].SetActive(true);
 		}
 		playerName.GetComponent<InputField> ().interactable = false;
+        createRoomButton.GetComponent<Button>().interactable = false;
 
 	}
 
 	void OnJoinedRoom(){
-
-        Debug.Log("3:OnJoinedRoom");
 
 		myPhotonView = this.GetComponent<PhotonView> ();
 
@@ -105,6 +106,7 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 		myRoom.SendMessage ("SetRoomInfo", PhotonNetwork.room);
 
         heroSelect.SetActive(true);
+        heroSelect.GetComponent<HeroSelector>().SetIcon(HeroCharacter.ninja);//default hero
 		myRoom.SendMessage ("OpenRoom");
         myPhotonView.RPC("RoomUpdate", PhotonTargets.Others);
 
@@ -158,8 +160,6 @@ public class MyPhotonClient : Photon.MonoBehaviour {
 	}
 
 	void CreateRoom(){
-
-        Debug.Log("2:CreateRoom");
 
 		startButton.GetComponent<Button> ().interactable = true;
 

@@ -94,6 +94,14 @@ public class PlayerController : MonoBehaviour {
         skillPlaying = false;
 
 	}
+
+    void Start()
+    {
+        //minimapに送る
+        GameObject.Find("MiniMapHero").GetComponent<MiniMap>().AddCharaOnMiniMap(transform);
+
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

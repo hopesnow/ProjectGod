@@ -10,12 +10,19 @@ public class MyRoomInfo : MonoBehaviour {
 	public GameObject[] players;
 	public GameObject textPrefab;
 	public GameObject playerParent;
-    HeroSelector heroSelector;
+    //HeroSelector heroSelector;
+    public HeroSelector heroSelector;
+
+
+
+    void Awake()
+    {
+
+    }
 
 	// Use this for initialization
 	void Start () {
 
-        heroSelector = GameObject.Find("HeroSelect").GetComponent<HeroSelector>();
 
 	}
 	
@@ -56,7 +63,6 @@ public class MyRoomInfo : MonoBehaviour {
             {
                 players[blueNum * 2].SetActive(true);
                 players[blueNum * 2].GetComponent<Text>().text = PhotonNetwork.playerList[i].name;
-                Debug.Log(i.ToString() + " num:" + PhotonNetwork.playerList[i].customProperties["HS"]);
                 players[blueNum * 2].GetComponentInChildren<Image>().sprite = heroSelector.GetIcon((HeroCharacter)PhotonNetwork.playerList[i].customProperties["HS"]);
                 players[blueNum * 2].transform.FindChild("HeroName").gameObject.GetComponent<Text>().text = heroSelector.GetName((HeroCharacter)PhotonNetwork.playerList[i].customProperties["HS"]);
 

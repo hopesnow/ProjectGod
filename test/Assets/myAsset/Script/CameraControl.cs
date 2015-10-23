@@ -47,6 +47,7 @@ public class CameraControl : MonoBehaviour {
         }
 
         if (!player.GetComponent<PlayerController>().DYING)
+
         {
 
             //player move
