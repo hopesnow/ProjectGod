@@ -67,6 +67,7 @@ public class TowerAI : MonoBehaviour {
                     if (target == null)
                     {
                         act = TOWER_ACT.idle;
+                        break;
                     }
                     //ターゲットが範囲内にいるか
                     if (Vector3.Distance(transform.position, target.transform.position) > searchDist)

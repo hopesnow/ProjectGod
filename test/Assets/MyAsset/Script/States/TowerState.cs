@@ -14,8 +14,8 @@ public class TowerState : ObjectState {
         attack = 50;
         protect = 10;
         attack_speed = 40;
-        range = 12.0f;
-        width = 3.0f;
+        range = 11.0f;
+        width = 2.0f;
 
     }
 

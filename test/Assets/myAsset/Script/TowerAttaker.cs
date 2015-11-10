@@ -33,6 +33,7 @@ public class TowerAttaker : MonoBehaviour {
         {
             GetComponent<PhotonView>().RPC("attacked", PhotonTargets.All);
             master = false;
+            return;
         }
 
         Vector3 vec = ((target.transform.position + targetOffset) - transform.position).normalized;

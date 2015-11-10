@@ -239,7 +239,10 @@ public class PlayerController : MonoBehaviour {
                     switch (cSkill.nAttack)
                     {
                         case NEXT_ATTACK.normal:
-
+                            if (targettingObj == null)
+                            {
+                                break;
+                            }
                             //攻撃可能範囲から外れた場合
                             if (Vector3.Distance(GetVecXZ(transform.position), GetVecXZ(targettingObj.position)) > gameObject.GetComponent<ObjectState>().RANGE + targettingObj.gameObject.GetComponent<ObjectState>().WIDTH)
                             {

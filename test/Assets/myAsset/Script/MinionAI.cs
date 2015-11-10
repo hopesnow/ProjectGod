@@ -96,6 +96,7 @@ public class MinionAI : MonoBehaviour {
 
         if (MasterAI)//master player
         {
+            if (gameObject == null) return;
             switch (act)
             {
                 case MINION_ACT.move:
@@ -141,7 +142,10 @@ public class MinionAI : MonoBehaviour {
 
                     break;
                 case MINION_ACT.target:
-                    if (target == null) act = MINION_ACT.move;
+                    if (target == null) {
+                        act = MINION_ACT.move;
+                        break;
+                    }
                     if (Vector3.Distance(transform.position, target.transform.position) < gameObject.GetComponent<ObjectState>().RANGE + target.gameObject.GetComponent<ObjectState>().WIDTH)
                     {//攻撃フェーズへ遷移
                         act = MINION_ACT.attack;

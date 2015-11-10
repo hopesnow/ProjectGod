@@ -46,7 +46,9 @@ public class CameraControl : MonoBehaviour {
 
         }
 
-        if (!player.GetComponent<PlayerController>().DYING)
+        if (player != null && !player.GetComponent<PlayerController>().DYING)
+
+
 
         {
 
