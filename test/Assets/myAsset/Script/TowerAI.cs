@@ -48,6 +48,7 @@ public class TowerAI : MonoBehaviour {
                     if (PhotonNetwork.player.isMasterClient)
                     {
 
+                        //minion優先のため
                         foreach (GameObject go in GameObject.FindGameObjectsWithTag("canAttackObject"))
                         {
                             if (go.GetComponent<ObjectState>().team == team) continue;
@@ -59,6 +60,20 @@ public class TowerAI : MonoBehaviour {
                             }
 
                         }
+                        //minionののちプレイヤーを狙う
+                        foreach (GameObject go in GameObject.FindGameObjectsWithTag("canAttackObject)"))
+                        {
+                            if (go.GetComponent<ObjectState>().team == team) continue;
+                            if (Vector3.Distance(transform.position, go.transform.position) <= searchDist)
+                            {
+                                act = TOWER_ACT.targetting;
+                                target = go;
+                                break;
+                            }
+
+                        }
+
+
                     }
 
                     break;
