@@ -48,31 +48,37 @@ public class TowerAI : MonoBehaviour {
                     if (PhotonNetwork.player.isMasterClient)
                     {
 
+                        bool close = false;
                         //minion優先のため
                         foreach (GameObject go in GameObject.FindGameObjectsWithTag("canAttackObject"))
                         {
-                            if (go.GetComponent<ObjectState>().team == team) continue;
+                            if (go.GetComponent<ObjectState>().team == team) continue;//同チームならスキップ
+                            if (go.GetComponent<PlayerController>() != null) continue;//プレイヤーならスキップ
                             if (Vector3.Distance(transform.position, go.transform.position) <= searchDist)
                             {
                                 act = TOWER_ACT.targetting;
                                 target = go;
+                                close = true;
                                 break;
                             }
 
                         }
                         //minionののちプレイヤーを狙う
-                        foreach (GameObject go in GameObject.FindGameObjectsWithTag("canAttackObject)"))
+                        if (!close)
                         {
-                            if (go.GetComponent<ObjectState>().team == team) continue;
-                            if (Vector3.Distance(transform.position, go.transform.position) <= searchDist)
+                            foreach (GameObject go in GameObject.FindGameObjectsWithTag("canAttackObject"))
                             {
-                                act = TOWER_ACT.targetting;
-                                target = go;
-                                break;
+                                if (go.GetComponent<ObjectState>().team == team) continue;
+                                if (go.GetComponent<PlayerController>() == null) continue;//プレイヤーじゃないならスキップ
+                                if (Vector3.Distance(transform.position, go.transform.position) <= searchDist)
+                                {
+                                    act = TOWER_ACT.targetting;
+                                    target = go;
+                                    break;
+                                }
+
                             }
-
                         }
-
 
                     }
 

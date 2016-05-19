@@ -154,26 +154,49 @@ public class MinionAI : MonoBehaviour {
                     else if (Vector3.Distance(transform.position, target.transform.position) > searchDist)
                     {
                         act = MINION_ACT.move;
+
                         target = null;
 
                     }
                     else if (Vector3.Distance(transform.position, target.transform.position) > attackDist)
                     {
                         GameObject nextGo = null;
+                        //minion優先
                         foreach (GameObject go in GameObject.FindGameObjectsWithTag("canAttackObject"))
                         {
                             if (go.GetComponent<ObjectState>().team == gameObject.GetComponent<ObjectState>().team) continue;
+                            //if (go.GetComponent<PlayerController>() != null) continue;
                             if (nextGo == null)
                             {
                                 nextGo = go;
                                 continue;
-                            }
-                            if (Vector3.Distance(transform.position, nextGo.transform.position) > Vector3.Distance(transform.position, go.transform.position))
+                            }else if (Vector3.Distance(transform.position, nextGo.transform.position) > Vector3.Distance(transform.position, go.transform.position))
                             {
                                 nextGo = go;
                             }
 
                         }
+                        ////minionののちにプレイヤーを狙う
+                        //if (nextGo == null)
+                        //{
+                        //    foreach (GameObject go in GameObject.FindGameObjectsWithTag("canAttackObject"))
+                        //    {
+                        //        if (go.GetComponent<ObjectState>().team == gameObject.GetComponent<ObjectState>().team) continue;
+                        //        if (go.GetComponent<PlayerController>() == null) continue;
+                        //        if (nextGo == null)
+                        //        {
+                        //            nextGo = go;
+                        //            continue;
+                        //        }
+                        //        else if (Vector3.Distance(transform.position, nextGo.transform.position) > Vector3.Distance(transform.position, go.transform.position))
+                        //        {
+                        //            nextGo = go;
+                        //        }
+
+                        //    }
+                        //}
+
+                        
                         if (Vector3.Distance(transform.position, nextGo.transform.position) <= searchDist)
                         {//次に近い場所にいる攻撃できるやつが近くにいるときターゲットを切り替える
                             target = nextGo;
